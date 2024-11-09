@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #202225;
+  --primary: #7289da;
+  --secondary: #2c2f33;
+  --accent: #43b581;
+  --text: #ffffff;
+  --text-secondary: #99aab5;
+}
+
+body {
+  @apply bg-[var(--background)] text-[var(--text)] font-sans antialiased;
+}
+
+.glass-effect {
+  @apply bg-white/10 backdrop-blur-lg border border-white/20;
+}
