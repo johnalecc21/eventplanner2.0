@@ -5,7 +5,7 @@ import Marketplace from './pages/Marketplace';
 import ServiceDetails from './pages/ServiceDetails';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Community from './pages/Community';
+import {Community} from './pages/Community';
 import Events from './pages/Events';
 import ProviderDashboard from './pages/ProviderDashboard';
 
