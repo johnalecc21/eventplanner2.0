@@ -11,7 +11,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="glass-effect sticky top-0 z-50 py-4">
+    <nav className="glass-effect sticky top-10 z-50 py-4 w-[75%] mx-auto rounded-full shadow-xl backdrop-blur-lg bg-white/30">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center space-x-2">
@@ -36,7 +36,7 @@ const Navbar = () => {
                 </Link>
                 <Link
                   to="/register"
-                  className="px-4 py-2 rounded-lg bg-primary hover:bg-primary/90 transition-colors"
+                  className="px-4 py-2 rounded-full bg-primary hover:bg-primary/90 transition-colors"
                 >
                   Register
                 </Link>
@@ -44,7 +44,7 @@ const Navbar = () => {
             ) : (
               <button
                 onClick={handleLogout}
-                className="px-4 py-2 rounded-lg hover:bg-white/5 transition-colors"
+                className="px-4 py-2 rounded-full bg-primary hover:bg-primary/90 transition-colors"
               >
                 Logout
               </button>

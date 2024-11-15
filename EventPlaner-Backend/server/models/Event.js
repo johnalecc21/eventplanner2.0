@@ -39,16 +39,53 @@ const eventSchema = new mongoose.Schema({
       enum: ['pending', 'confirmed', 'cancelled'],
       default: 'pending',
     },
+    price: {
+      type: Number,
+      required: false,
+    },
+  }],
+  guests: [{
+    name: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+    },
+    status: {
+      type: String,
+      enum: ['invited', 'confirmed', 'declined'],
+      default: 'invited',
+    },
   }],
   status: {
     type: String,
     enum: ['draft', 'published', 'cancelled', 'completed'],
     default: 'draft',
   },
+  notificationsSent: {
+    type: Boolean,
+    default: false,
+  },
+  estimatedTotalCost: {
+    type: Number,
+    default: 0,
+  },
   createdAt: {
     type: Date,
     default: Date.now,
   },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+// Middleware para actualizar la fecha de 'updatedAt' en cada modificación
+eventSchema.pre('save', function(next) {
+  this.updatedAt = Date.now();
+  next();
 });
 
 export default mongoose.model('Event', eventSchema);

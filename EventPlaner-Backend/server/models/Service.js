@@ -1,11 +1,11 @@
 import mongoose from 'mongoose';
 
 const serviceSchema = new mongoose.Schema({
-  // provider: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: 'User',
-  //   required: true,
-  // },
+  provider: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
   name: {
     type: String,
     required: true,
@@ -26,7 +26,7 @@ const serviceSchema = new mongoose.Schema({
     type: String,
     required: true,
   }],
-  imageUrls: [{  // Add this field for image URLs
+  imageUrls: [{  
     type: String,
   }],
   location: {

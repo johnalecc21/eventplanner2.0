@@ -1,6 +1,7 @@
-import { useState } from 'react';
-import { X, Calendar, Clock, Users, MessageSquare } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { X } from 'lucide-react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 interface BookingModalProps {
   service: any;
@@ -14,10 +15,21 @@ const BookingModal = ({ service, onClose }: BookingModalProps) => {
     guests: '',
     message: '',
   });
+  const [isLoggedIn, setIsLoggedIn] = useState(true); // Estado para saber si el usuario está logueado
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Comprobar si el token existe en el localStorage
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setIsLoggedIn(false); // Si no hay token, el usuario no está logueado
+      navigate('/login'); // Redirigir al login
+    }
+  }, [navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     try {
       const token = localStorage.getItem('token');
       await axios.post(`/api/services/${service._id}/book`, formData, {
@@ -28,6 +40,10 @@ const BookingModal = ({ service, onClose }: BookingModalProps) => {
       console.error('Error booking service:', error);
     }
   };
+
+  if (!isLoggedIn) {
+    return null; // No renderiza el modal si no está logueado
+  }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">

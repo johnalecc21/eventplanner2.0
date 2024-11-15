@@ -3,6 +3,8 @@ import multer from 'multer';
 import Service from '../models/Service.js';
 import { auth } from '../middleware/auth.js';
 import { isProvider } from '../middleware/isProvider.js';
+import Booking from '../models/Booking.js';
+import { sendBookingNotification } from '../utils/email.js';
 
 const router = express.Router();
 const upload = multer({ dest: 'uploads/' });
@@ -22,6 +24,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const service = await Service.findById(req.params.id)
+    .populate('provider', 'name email')
       .populate('reviews.user', 'name');
     
     if (!service) {
@@ -35,7 +38,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // Create service (providers only)
-router.post('/',  upload.array('images', 5), async (req, res) => {
+router.post('/',  auth, isProvider, upload.array('images', 5), async (req, res) => {
   try {
     const { name, category, description, price, location, imageUrls } = req.body;
     const images = req.files.map(file => file.path);
@@ -48,6 +51,7 @@ router.post('/',  upload.array('images', 5), async (req, res) => {
       location,
       images,
       imageUrls,
+      provider: req.user.userId, 
     });
 
     await service.save();
@@ -99,5 +103,54 @@ router.post('/:id/reviews', auth, async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
+
+router.post('/:serviceId/book', auth, async (req, res) => {
+  const { date, time, guests, message } = req.body;
+  const userId = req.user.userId;
+  const serviceId = req.params.serviceId;  
+  console.log('userId:', userId);  
+
+  try {
+    // Buscar el servicio y obtener el email del proveedor
+    const service = await Service.findById(serviceId).populate('provider');
+    if (!service) {
+      return res.status(404).json({ error: 'Service not found' });
+    }
+
+
+    const booking = new Booking({
+      serviceId,
+      userId,
+      date,
+      time,
+      guests,
+      message,
+      
+    });
+
+    await booking.save();
+
+    // Enviar notificación por correo al proveedor
+    const providerEmail = service.provider.email;
+    const bookingDetails = {
+      serviceName: service.name,
+      date,
+      time,
+      guests,
+      message,
+      userName: req.user.email, 
+    };
+
+    await sendBookingNotification(providerEmail, bookingDetails);
+
+    res.status(201).json({ message: 'Booking successful, email sent to provider.' });
+  } catch (error) {
+    console.error('Error creating booking:', error);  
+    res.status(500).json({ error: 'Error creating booking', details: error.message });
+  }
+  
+});
+
+
 
 export default router;

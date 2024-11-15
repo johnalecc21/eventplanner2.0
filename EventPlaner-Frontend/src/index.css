@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --background: #202225;
-  --primary: #7289da;
+  --background: #121316;
+  --primary: #a770ff;
   --secondary: #2c2f33;
   --accent: #43b581;
   --text: #ffffff;
@@ -16,5 +16,5 @@ body {
 }
 
 .glass-effect {
-  @apply bg-white/10 backdrop-blur-lg border border-white/20;
+  @apply bg-white/10 backdrop-blur-xl border border-white/20;
 }
