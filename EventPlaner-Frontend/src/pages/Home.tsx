@@ -1,18 +1,43 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChevronRight, Plus } from 'lucide-react';
 import EventCard from '../components/EventCard';
 import CreateEventModal from '../components/CreateEventModal';
+import iconStep1 from '../assets/icons/icon_step1.png';
+import iconStep2 from '../assets/icons/icon_step2.png';
+import iconStep3 from '../assets/icons/icon_step3.png';
+import iconStep4 from '../assets/icons/icon_step4.png';
+import sectionHome2 from '../assets/images/section2.svg';
+import imageParty from '../assets/images/img_fiesta.jpg';
+import imgCarrousel1 from '../assets/images/img_carrousel1.jpeg';
+import imgCarrousel2 from '../assets/images/img_carrousel2.jpg';
+import imgCarrousel3 from '../assets/images/img_carrousel3.jpg';
+
 
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const images = [
+    imgCarrousel1,
+    imgCarrousel2,
+    imgCarrousel3
+  ];
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 3000); 
+
+    return () => clearInterval(interval); 
+  }, [images.length]);
 
   return (
     <div className="space-y-12">
       <section className="relative h-[500px] rounded-2xl overflow-hidden">
         <img
-          src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30"
+          src={images[currentIndex]}
           alt="Event planning"
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-background/90 to-background/50" />
         <div className="relative h-full flex flex-col justify-center px-8 md:px-12">
@@ -64,10 +89,50 @@ const Home = () => {
             category="Exhibition"
           />
         </div>
+        
       </section>
 
       {isModalOpen && <CreateEventModal onClose={() => setIsModalOpen(false)} />}
+
+      <section className="py-12 px-8 rounded-2xl glass-effect text-center md:text-left flex flex-col md:flex-row items-center">
+  <img 
+    src={imageParty} 
+    alt="Fiesta" 
+    className="w-full md:w-1/2 rounded-2xl mb-4 md:mb-0 md:mr-8"
+  />
+  <div className="md:w-1/2">
+    <h2 className="text-2xl md:text-3xl font-bold text-[var(--text)] mb-6">About Us</h2>
+    <p className="text-lg text-[var(--text-secondary)]">
+      We simplify the process of planning your event by connecting you with quality vendors for weddings, birthdays, parties, and more. 
+      Find the perfect venue, catering, decoration, and entertainment all in one place. Visit EventPlanner and start planning the event of your dreams today.
+    </p>
+  </div>
+</section>
+
+      
+      
+      <div className="bg-[var(--secondary)] text-[var(--text)] mx-auto p-8 rounded-3xl shadow-lg mt-14 mb-8 glass-effect">
+
+      <h2 className="text-4xl font-medium mb-8 text-center">How does EventPlanner work?</h2>
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {[
+          { icon: iconStep1, title: "Create your account", text: "Sign up to start planning your event." },
+          { icon: iconStep2, title: "Explore services", text: "Find providers and services for your event." },
+          { icon: iconStep3, title: "Customize your event", text: "Choose the options that fit your needs." },
+          { icon: iconStep4, title: "Contact providers", text: "Discuss details and book services." },
+        ].map((step, index) => (
+          <div key={index} style={{ backgroundColor: 'rgba(23, 24, 28, 0.165)' }}  className="glass-effect bg-opacity-90 p-4 rounded-xl flex flex-col items-center min-h-[160px]">
+            <img src={step.icon} alt={`Step ${index + 1}`} className="w-24 h-24 mb-2" />
+            <h3 className="text-base font-bold text-center">{step.title}</h3>
+            <p className="text-sm text-[var(--text-secondary)] text-center">{step.text}</p>
+          </div>
+        ))}
+      </section>
     </div>
+
+    </div>
+
+    
   );
 };
 
