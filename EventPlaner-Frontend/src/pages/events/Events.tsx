@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Plus, Calendar as CalendarIcon } from 'lucide-react';
-import EventCard from '../components/EventCard';
-import CreateEventModal from '../components/CreateEventModal';
+import EventCard from '../../components/templates/eventCard/EventCard';
+import CreateEventModal from '../../components/organisms/createEventModal/CreateEventModal';
 
 const Events = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);

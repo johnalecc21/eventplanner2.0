@@ -1,12 +1,22 @@
 import { useState, useEffect } from 'react';
 import { Plus, Edit, Trash } from 'lucide-react';
 import axios from 'axios';
-import ServiceForm from '../components/ServiceForm';
+import ServiceForm from '../../components/molecules/serviceForm/ServiceForm';
+
+// Definir la interfaz para los servicios
+interface Service {
+  _id: string;
+  name: string;
+  description: string;
+  price: number;
+  category: string;
+  images: string[];
+}
 
 const ProviderDashboard = () => {
-  const [services, setServices] = useState([]);
+  const [services, setServices] = useState<Service[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingService, setEditingService] = useState(null);
+  const [editingService, setEditingService] = useState<Service | null>(null);
 
   useEffect(() => {
     fetchServices();
@@ -14,16 +24,16 @@ const ProviderDashboard = () => {
 
   const fetchServices = async () => {
     try {
-      const response = await  axios.get('http://localhost:5001/api/services/provider');
+      const response = await axios.get<Service[]>('http://localhost:5001/api/services');
       setServices(response.data);
     } catch (error) {
       console.error('Error fetching services:', error);
     }
   };
 
-  const handleDelete = async (serviceId) => {
+  const handleDelete = async (serviceId: string) => {
     try {
-      await axios.delete(`/api/services/${serviceId}`);
+      await axios.delete(`http://localhost:5001/api/services/${serviceId}`);
       fetchServices();
     } catch (error) {
       console.error('Error deleting service:', error);
@@ -45,7 +55,6 @@ const ProviderDashboard = () => {
           <span>Add Service</span>
         </button>
       </div>
-
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {services.map((service) => (
           <div key={service._id} className="glass-effect rounded-xl overflow-hidden">
@@ -73,7 +82,6 @@ const ProviderDashboard = () => {
                 </button>
               </div>
             </div>
-            
             <div className="p-6">
               <h3 className="text-xl font-semibold mb-2">{service.name}</h3>
               <p className="text-text-secondary mb-4">{service.description}</p>
@@ -87,7 +95,6 @@ const ProviderDashboard = () => {
           </div>
         ))}
       </div>
-
       {isModalOpen && (
         <ServiceForm
           service={editingService}

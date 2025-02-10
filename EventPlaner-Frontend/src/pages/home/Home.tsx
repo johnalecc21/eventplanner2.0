@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronRight, Plus } from 'lucide-react';
-import EventCard from '../components/EventCard';
-import CreateEventModal from '../components/CreateEventModal';
-import iconStep1 from '../assets/icons/icon_step1.png';
-import iconStep2 from '../assets/icons/icon_step2.png';
-import iconStep3 from '../assets/icons/icon_step3.png';
-import iconStep4 from '../assets/icons/icon_step4.png';
-import sectionHome2 from '../assets/images/section2.svg';
-import imageParty from '../assets/images/img_fiesta.jpg';
-import imgCarrousel1 from '../assets/images/img_carrousel1.jpeg';
-import imgCarrousel2 from '../assets/images/img_carrousel2.jpg';
-import imgCarrousel3 from '../assets/images/img_carrousel3.jpg';
+import EventCard from '../../components/templates/eventCard/EventCard';
+import CreateEventModal from '../../components/organisms/createEventModal/CreateEventModal';
+import iconStep1 from '../../assets/icons/icon_step1.png';
+import iconStep2 from '../../assets/icons/icon_step2.png';
+import iconStep3 from '../../assets/icons/icon_step3.png';
+import iconStep4 from '../../assets/icons/icon_step4.png';
+import sectionHome2 from '../../assets/images/section2.svg';
+import imageParty from '../../assets/images/img_fiesta.jpg';
+import imgCarrousel1 from '../../assets/images/img_carrousel1.jpeg';
+import imgCarrousel2 from '../../assets/images/img_carrousel2.jpg';
+import imgCarrousel3 from '../../assets/images/img_carrousel3.jpg';
 
 
 const Home = () => {

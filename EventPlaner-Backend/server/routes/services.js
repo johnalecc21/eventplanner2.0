@@ -103,34 +103,32 @@ router.post('/:id/reviews', auth, async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
-
 router.post('/:serviceId/book', auth, async (req, res) => {
+  console.log("Usuario autenticado:", req.user); 
+
   const { date, time, guests, message } = req.body;
   const userId = req.user.userId;
-  const serviceId = req.params.serviceId;  
-  console.log('userId:', userId);  
+  const userName = req.user.name; 
+
+  console.log('Nombre del usuario:', userName); 
 
   try {
-    // Buscar el servicio y obtener el email del proveedor
-    const service = await Service.findById(serviceId).populate('provider');
+    const service = await Service.findById(req.params.serviceId).populate('provider');
     if (!service) {
       return res.status(404).json({ error: 'Service not found' });
     }
 
-
     const booking = new Booking({
-      serviceId,
+      serviceId: req.params.serviceId,
       userId,
       date,
       time,
       guests,
       message,
-      
     });
 
     await booking.save();
 
-    // Enviar notificación por correo al proveedor
     const providerEmail = service.provider.email;
     const bookingDetails = {
       serviceName: service.name,
@@ -138,17 +136,16 @@ router.post('/:serviceId/book', auth, async (req, res) => {
       time,
       guests,
       message,
-      userName: req.user.email, 
+      userName: userName, 
     };
 
     await sendBookingNotification(providerEmail, bookingDetails);
 
     res.status(201).json({ message: 'Booking successful, email sent to provider.' });
   } catch (error) {
-    console.error('Error creating booking:', error);  
+    console.error('Error creating booking:', error);
     res.status(500).json({ error: 'Error creating booking', details: error.message });
   }
-  
 });
 
 

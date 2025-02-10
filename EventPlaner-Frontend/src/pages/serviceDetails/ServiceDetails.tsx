@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Star, MapPin, Calendar, DollarSign, MessageSquare } from 'lucide-react';
 import axios from 'axios';
-import BookingModal from '../components/BookingModal';
+import BookingModal from '../../components/organisms/bookingModal/BookingModal';
 interface Review {
   _id: string;
   user: {

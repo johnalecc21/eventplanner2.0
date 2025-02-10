@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Search, Filter } from 'lucide-react';
-import ServiceCard from '../components/ServiceCard';
-import CategoryFilter from '../components/CategoryFilter';
+import ServiceCard from '../../components/templates/serviceCard/ServiceCard';
+import CategoryFilter from '../../components/molecules/categoryFilter/CategoryFilter';
 
 // Define la interfaz para los datos del servicio
 interface Service {

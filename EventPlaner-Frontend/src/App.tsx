@@ -1,13 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import Home from './pages/Home';
-import Marketplace from './pages/Marketplace';
-import ServiceDetails from './pages/ServiceDetails';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import {Community} from './pages/Community';
-import Events from './pages/Events';
-import ProviderDashboard from './pages/ProviderDashboard';
+import Navbar from './components/organisms/navbar/Navbar';
+import Home from './pages/home/Home';
+import Marketplace from './pages/marketplace/Marketplace';
+import ServiceDetails from './pages/serviceDetails/ServiceDetails';
+import Login from './pages/login/Login';
+import Register from './pages/register/Register';
+import {Community} from './pages/community/Community';
+import Events from './pages/events/Events';
+import ProviderDashboard from './pages/providerDashboard/ProviderDashboard';
 
 function App() {
   return (

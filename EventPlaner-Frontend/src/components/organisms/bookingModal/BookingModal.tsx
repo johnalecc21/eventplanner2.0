@@ -32,9 +32,11 @@ const BookingModal = ({ service, onClose }: BookingModalProps) => {
 
     try {
       const token = localStorage.getItem('token');
-      await axios.post(`/api/services/${service._id}/book`, formData, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const userId = localStorage.getItem('userId'); // Asegúrate de guardar el userId en localStorage
+await axios.post(`/api/services/${service._id}/book`, { ...formData, userId }, {
+  headers: { Authorization: `Bearer ${token}` },
+});
+
       onClose();
     } catch (error) {
       console.error('Error booking service:', error);

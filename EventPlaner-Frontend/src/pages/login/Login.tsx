@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Mail, Lock } from 'lucide-react';
-import InputField from '../components/InputField';
+import InputField from '../../components/atoms/input/InputField';
 import axios from 'axios';
 
 const Login = () => {

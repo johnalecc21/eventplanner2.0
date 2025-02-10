@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { MessageSquare, ThumbsUp, Share2 } from 'lucide-react';
-import CommunityPost from '../components/CommunityPost';
+import CommunityPost from '../../components/templates/communityPost/CommunityPost';
 
 export const Community = () => {
   const [activeTab, setActiveTab] = useState('trending');

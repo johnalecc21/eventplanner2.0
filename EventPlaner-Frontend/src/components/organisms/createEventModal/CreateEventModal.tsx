@@ -1,6 +1,6 @@
 import { X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import EventForm from './EventForm';
+import EventForm from '../../molecules/eventForm/EventForm';
 import { useState } from 'react';
 
 interface CreateEventModalProps {
