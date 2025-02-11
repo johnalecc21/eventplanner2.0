@@ -16,6 +16,7 @@ export const sendBookingNotification = async (providerEmail, bookingDetails) => 
     subject: '📅 Nueva Reserva de Servicio - EventPlanner',
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background: #ffffff; border: 1px solid #ddd;">
+        <h1 style="text-align: center; color: #a770ff;">EventPlanner</h1>
         <h2 style="text-align: center; color: #333;">✨ Nueva Reserva Recibida ✨</h2>
         <p style="text-align: center; color: #777; font-size: 16px;">Has recibido una nueva solicitud de reserva en <strong>EventPlanner</strong>.</p>
 
