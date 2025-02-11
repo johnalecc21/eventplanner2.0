@@ -10,10 +10,21 @@ const router = express.Router();
 const upload = multer({ dest: 'uploads/' });
 
 // Get all services
+// Get all services (optional: filter by providerId)
 router.get('/', async (req, res) => {
   try {
-    const services = await Service.find()
-      .sort('-createdAt');
+    const { providerId } = req.query;
+    let query = {};
+
+    if (providerId) {
+      query.provider = providerId;
+    }
+
+    const services = await Service.find(query)
+      .sort('-createdAt')
+      .populate('provider', 'name email')
+      .populate('reviews.user', 'name');
+
     res.json(services);
   } catch (error) {
     res.status(500).json({ message: 'Server error get all' });
@@ -63,11 +74,22 @@ router.post('/',  auth, isProvider, upload.array('images', 5), async (req, res) 
 });
 
 // Update service
-router.put('/:id', auth, isProvider, async (req, res) => {
+router.put('/:id', auth, isProvider, upload.array('images', 5), async (req, res) => {
   try {
+    const { name, category, description, price, location, imageUrls } = req.body;
+    const images = req.files.map(file => file.path);
+
     const service = await Service.findOneAndUpdate(
       { _id: req.params.id, provider: req.user.userId },
-      req.body,
+      {
+        name,
+        category,
+        description,
+        price,
+        location,
+        images,
+        imageUrls,
+      },
       { new: true }
     );
 
@@ -75,9 +97,11 @@ router.put('/:id', auth, isProvider, async (req, res) => {
       return res.status(404).json({ message: 'Service not found' });
     }
 
+    console.log('Service updated successfully:', service);
     res.json(service);
   } catch (error) {
-    res.status(500).json({ message: 'Server error' });
+    console.error('Error updating service:', error);
+    res.status(500).json({ message: 'Error updating service', details: error.message });
   }
 });
 
@@ -103,6 +127,25 @@ router.post('/:id/reviews', auth, async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
+// Delete service
+router.delete('/:id', auth, isProvider, async (req, res) => {
+  try {
+    console.log('Deleting service with ID:', req.params.id, 'and provider ID:', req.user.userId);
+    const service = await Service.findOneAndDelete({
+      _id: req.params.id,
+      provider: req.user.userId,
+    });
+    if (!service) {
+      return res.status(404).json({ message: 'Service not found' });
+    }
+    console.log('Service deleted successfully:', service);
+    res.json({ message: 'Service deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting service:', error);
+    res.status(500).json({ message: 'Error deleting service', details: error.message });
+  }
+});
+
 router.post('/:serviceId/book', auth, async (req, res) => {
   console.log("Usuario autenticado:", req.user); 
 
