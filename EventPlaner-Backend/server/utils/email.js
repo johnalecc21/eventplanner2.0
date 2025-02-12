@@ -9,7 +9,6 @@ export const sendBookingNotification = async (providerEmail, bookingDetails) => 
       pass: process.env.EMAIL_PASS,
     },
   });
-
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: providerEmail,
@@ -19,7 +18,6 @@ export const sendBookingNotification = async (providerEmail, bookingDetails) => 
         <h1 style="text-align: center; color: #a770ff;">EventPlanner</h1>
         <h2 style="text-align: center; color: #333;">✨ Nueva Reserva Recibida ✨</h2>
         <p style="text-align: center; color: #777; font-size: 16px;">Has recibido una nueva solicitud de reserva en <strong>EventPlanner</strong>.</p>
-
         <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; margin-top: 15px;">
           <h3 style="color: #555;">📌 Detalles de la Reserva</h3>
           <p><strong>Servicio:</strong> ${bookingDetails.serviceName}</p>
@@ -29,15 +27,80 @@ export const sendBookingNotification = async (providerEmail, bookingDetails) => 
           <p><strong>Número de Invitados:</strong> ${bookingDetails.guests}</p>
           <p><strong>Mensaje:</strong> ${bookingDetails.message}</p>
         </div>
-
         <div style="text-align: center; margin-top: 20px;">
           <a href="http://localhost:5173/" style="background: #a770ff; padding: 12px 18px; text-decoration: none; color: #fff; font-weight: bold; border-radius: 5px; display: inline-block;">📋 Ver Reserva</a>
         </div>
-
         <p style="text-align: center; color: #777; margin-top: 20px; font-size: 14px;">Gracias por ser parte de <strong>EventPlanner</strong>. ¡Esperamos que tengas una excelente experiencia! 🎉</p>
       </div>
     `,
   };
+  await transporter.sendMail(mailOptions);
+};
 
+export const sendConfirmationNotification = async (userEmail, confirmationDetails) => {
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: userEmail,
+    subject: '🎉 Reserva Confirmada - EventPlanner',
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background: #ffffff; border: 1px solid #ddd;">
+        <h1 style="text-align: center; color: #a770ff;">EventPlanner</h1>
+        <h2 style="text-align: center; color: #333;">✨ Reserva Confirmada ✨</h2>
+        <p style="text-align: center; color: #777; font-size: 16px;">Tu reserva para el servicio <strong>${confirmationDetails.serviceName}</strong> ha sido confirmada por el planner <strong>${confirmationDetails.providerName}</strong>.</p>
+        <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; margin-top: 15px;">
+          <h3 style="color: #555;">📌 Detalles de la Reserva</h3>
+          <p><strong>Fecha:</strong> ${confirmationDetails.date}</p>
+          <p><strong>Hora:</strong> ${confirmationDetails.time}</p>
+          <p><strong>Número de Invitados:</strong> ${confirmationDetails.guests}</p>
+          <p><strong>Mensaje:</strong> ${confirmationDetails.message}</p>
+        </div>
+        <div style="text-align: center; margin-top: 20px;">
+          <a href="http://localhost:5173/" style="background: #a770ff; padding: 12px 18px; text-decoration: none; color: #fff; font-weight: bold; border-radius: 5px; display: inline-block;">📋 Ver Reserva</a>
+        </div>
+        <p style="text-align: center; color: #777; margin-top: 20px; font-size: 14px;">Gracias por ser parte de <strong>EventPlanner</strong>. ¡Esperamos que tengas una excelente experiencia! 🎉</p>
+      </div>
+    `,
+  };
+  await transporter.sendMail(mailOptions);
+};
+
+export const sendRejectionNotification = async (userEmail, rejectionDetails) => {
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: userEmail,
+    subject: '😢 Reserva Rechazada - EventPlanner',
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background: #ffffff; border: 1px solid #ddd;">
+        <h1 style="text-align: center; color: #a770ff;">EventPlanner</h1>
+        <h2 style="text-align: center; color: #333;">😢 Reserva Rechazada 😢</h2>
+        <p style="text-align: center; color: #777; font-size: 16px;">Lo sentimos, tu reserva para el servicio <strong>${rejectionDetails.serviceName}</strong> ha sido rechazada por el planner <strong>${rejectionDetails.providerName}</strong>.</p>
+        <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; margin-top: 15px;">
+          <h3 style="color: #555;">📌 Detalles de la Reserva</h3>
+          <p><strong>Fecha:</strong> ${rejectionDetails.date}</p>
+          <p><strong>Hora:</strong> ${rejectionDetails.time}</p>
+          <p><strong>Número de Invitados:</strong> ${rejectionDetails.guests}</p>
+          <p><strong>Mensaje:</strong> ${rejectionDetails.message}</p>
+        </div>
+        <div style="text-align: center; margin-top: 20px;">
+          <a href="http://localhost:5173/" style="background: #a770ff; padding: 12px 18px; text-decoration: none; color: #fff; font-weight: bold; border-radius: 5px; display: inline-block;">📋 Ver Reserva</a>
+        </div>
+        <p style="text-align: center; color: #777; margin-top: 20px; font-size: 14px;">Gracias por ser parte de <strong>EventPlanner</strong>. ¡Esperamos que tengas una excelente experiencia! 🎉</p>
+      </div>
+    `,
+  };
   await transporter.sendMail(mailOptions);
 };
