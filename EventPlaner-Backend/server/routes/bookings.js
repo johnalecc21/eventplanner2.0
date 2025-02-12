@@ -84,7 +84,7 @@ router.put('/:id/reject', auth, isProvider, async (req, res) => {
       time: booking.time,
       guests: booking.guests,
       message: booking.message,
-      providerName: booking.serviceId.provider,
+      providerName: booking.serviceId.provider.name,
     };
     await sendRejectionNotification(booking.userId.email, rejectionDetails);
 
@@ -95,4 +95,21 @@ router.put('/:id/reject', auth, isProvider, async (req, res) => {
   }
 });
 
+
+// Get bookings for a user
+router.get('/user', auth, async (req, res) => {
+    try {
+      const bookings = await Booking.find({ userId: req.user.userId })
+        .populate({
+          path: 'serviceId',
+          populate: { path: 'provider', select: 'name' }
+        })
+        .populate('userId', 'name email')
+        .sort({ createdAt: -1 }); 
+      res.json(bookings);
+    } catch (error) {
+      console.error('Error fetching user bookings:', error);
+      res.status(500).json({ message: 'Server error fetching user bookings' });
+    }
+  });
 export default router;
