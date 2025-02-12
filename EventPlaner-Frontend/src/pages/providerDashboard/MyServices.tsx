@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { Plus, Edit, Trash } from 'lucide-react';
 import axios from 'axios';
 import ServiceForm from '../../components/molecules/serviceForm/ServiceForm';
+import Modal from '../../components/atoms/modal/Modal';
 
 // Definir la interfaz para los servicios
 interface Service {
@@ -18,6 +19,7 @@ const MyServices = () => {
   const [services, setServices] = useState<Service[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingService, setEditingService] = useState<Service | null>(null);
+  const [deleteModal, setDeleteModal] = useState<{ isOpen: boolean; serviceId: string | null }>({ isOpen: false, serviceId: null });
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -57,10 +59,25 @@ const MyServices = () => {
     }
   };
 
+  const openDeleteModal = (serviceId: string) => {
+    setDeleteModal({ isOpen: true, serviceId });
+  };
+
+  const closeDeleteModal = () => {
+    setDeleteModal({ isOpen: false, serviceId: null });
+  };
+
+  const confirmDelete = () => {
+    if (deleteModal.serviceId) {
+      handleDelete(deleteModal.serviceId);
+      closeDeleteModal();
+    }
+  };
+
   return (
     <div className="space-y-8">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">My Services</h1>
+        <h1 className="text-3xl font-bold text-primary">My Services</h1>
         <button
           onClick={() => {
             setEditingService(null);
@@ -92,7 +109,7 @@ const MyServices = () => {
                   <Edit className="h-5 w-5" />
                 </button>
                 <button
-                  onClick={() => handleDelete(service._id)}
+                  onClick={() => openDeleteModal(service._id)}
                   className="p-2 rounded-lg glass-effect hover:bg-white/20 transition-colors"
                 >
                   <Trash className="h-5 w-5" />
@@ -100,11 +117,11 @@ const MyServices = () => {
               </div>
             </div>
             <div className="p-6">
-              <h3 className="text-xl font-semibold mb-2">{service.name}</h3>
-              <p className="text-text-secondary mb-4">{service.description}</p>
+              <h3 className="text-xl font-semibold mb-2 text-gray-200">{service.name}</h3>
+              <p className="text-text-secondary mb-4 text-gray-200">{service.description}</p>
               <div className="flex items-center justify-between">
-                <span className="text-2xl font-bold">${service.price}</span>
-                <span className="px-3 py-1 rounded-full glass-effect text-sm">
+                <span className="text-2xl font-bold text-gray-200">${service.price}</span>
+                <span className="px-3 py-1 rounded-full glass-effect text-sm text-gray-200">
                   {service.category}
                 </span>
               </div>
@@ -130,6 +147,16 @@ const MyServices = () => {
           }}
         />
       )}
+      {/* Delete Modal */}
+      <Modal
+        isOpen={deleteModal.isOpen}
+        onClose={closeDeleteModal}
+        onConfirm={confirmDelete}
+        title="Delete Service"
+        message="Are you sure you want to delete this service?"
+        confirmButtonText="Delete"
+        cancelButtonText="Cancel"
+      />
     </div>
   );
 };
