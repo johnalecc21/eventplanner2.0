@@ -12,9 +12,13 @@ const router = express.Router();
 router.get('/provider', auth, isProvider, async (req, res) => {
   try {
     const bookings = await Booking.find({ serviceId: { $in: await Service.find({ provider: req.user.userId }).distinct('_id') } })
-      .populate('serviceId', 'name provider')
+      .populate({
+        path: 'serviceId',
+        populate: { path: 'provider', select: 'name _id' }  // ✅ Asegurar _id
+      })
       .populate('userId', 'name email')
-      .sort({ createdAt: -1 }); 
+      .sort({ createdAt: -1 });
+    
     res.json(bookings);
   } catch (error) {
     console.error('Error fetching bookings:', error);
@@ -32,7 +36,7 @@ router.put('/:id/confirm', auth, isProvider, async (req, res) => {
       )
       .populate({
         path: 'serviceId',
-        populate: { path: 'provider', select: 'name' }  // Asegura que se obtenga el "name" del provider
+        populate: { path: 'provider', select: 'name _id' }  // ✅ Asegurar _id
       })
       .populate('userId', 'name email');
 
@@ -68,11 +72,10 @@ router.put('/:id/reject', auth, isProvider, async (req, res) => {
       )
       .populate({
         path: 'serviceId',
-        populate: { path: 'provider', select: 'name' }
+        populate: { path: 'provider', select: 'name _id' }  // ✅ Asegurar _id
       })
       .populate('userId', 'name email');
       
-
     if (!booking) {
       return res.status(404).json({ message: 'Booking not found' });
     }
@@ -95,21 +98,43 @@ router.put('/:id/reject', auth, isProvider, async (req, res) => {
   }
 });
 
-
 // Get bookings for a user
 router.get('/user', auth, async (req, res) => {
     try {
       const bookings = await Booking.find({ userId: req.user.userId })
         .populate({
           path: 'serviceId',
-          populate: { path: 'provider', select: 'name' }
+          populate: { path: 'provider', select: 'name _id' }  // ✅ Asegurar _id
         })
         .populate('userId', 'name email')
-        .sort({ createdAt: -1 }); 
+        .sort({ createdAt: -1 });
+      
       res.json(bookings);
     } catch (error) {
       console.error('Error fetching user bookings:', error);
       res.status(500).json({ message: 'Server error fetching user bookings' });
     }
   });
+
+// Get a specific booking by ID
+router.get('/:id', auth, async (req, res) => {
+  try {
+    const booking = await Booking.findById(req.params.id)
+      .populate({
+        path: 'serviceId',
+        populate: { path: 'provider', select: 'name _id' }  // ✅ Asegurar _id
+      })
+      .populate('userId', 'name email');
+
+    if (!booking) {
+      return res.status(404).json({ message: 'Booking not found' });
+    }
+
+    res.json(booking);
+  } catch (error) {
+    console.error('Error fetching booking by ID:', error);
+    res.status(500).json({ message: 'Server error fetching booking by ID' });
+  }
+});
+
 export default router;

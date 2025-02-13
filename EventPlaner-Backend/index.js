@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import authRoutes from './server/routes/auth.js';
 import serviceRoutes from './server/routes/services.js';
 import bookingsRoutes from './server/routes/bookings.js';
+import messagesRoutes from './server/routes/messages.js';
 
 dotenv.config();  
 
@@ -29,6 +30,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 app.use('/api/auth', authRoutes);
 app.use('/api/services', serviceRoutes);
 app.use('/api/bookings', bookingsRoutes);
+app.use('/api/messages', messagesRoutes); 
 //app.use('/api/events', eventRoutes);
 
 const PORT = process.env.PORT || 5001;
