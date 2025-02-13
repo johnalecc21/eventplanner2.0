@@ -47,10 +47,10 @@ const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, providerName, se
         setMessages(response.data);
       } catch (error) {
         if (axios.isAxiosError(error)) {
-            console.error('Error sending message:', error.response?.data, error.message);
-          } else {
-            console.error('An unknown error occurred:', error);
-          }
+          console.error('Error fetching messages:', error.response?.data, error.message);
+        } else {
+          console.error('An unknown error occurred:', error);
+        }
       }
     };
 
@@ -84,11 +84,18 @@ const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, providerName, se
       setNewMessage('');
       scrollToBottom();
     } catch (error) {
-        if (axios.isAxiosError(error)) {
-            console.error('Error sending message:', error.response?.data, error.message);
-          } else {
-            console.error('An unknown error occurred:', error);
-          }
+      if (axios.isAxiosError(error)) {
+        console.error('Error sending message:', error.response?.data, error.message);
+      } else {
+        console.error('An unknown error occurred:', error);
+      }
+    }
+  };
+
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      sendMessage();
     }
   };
 
@@ -138,6 +145,7 @@ const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, providerName, se
             type="text"
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
+            onKeyDown={handleKeyPress}
             className="w-full bg-white/5 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
             placeholder="Type a message..."
           />
