@@ -33,7 +33,7 @@ const BookingModal = ({ service, onClose }: BookingModalProps) => {
     try {
       const token = localStorage.getItem('token');
       const userId = localStorage.getItem('userId'); // Asegúrate de guardar el userId en localStorage
-await axios.post(`/api/services/${service._id}/book`, { ...formData, userId }, {
+await axios.post(`https://eventplannerbackend.onrender.com/api/services/${service._id}/book`, { ...formData, userId }, {
   headers: { Authorization: `Bearer ${token}` },
 });
 

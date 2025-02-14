@@ -33,7 +33,7 @@ const EventForm = ({ onClose }: EventFormProps) => {
         }
       });
 
-      await axios.post('/api/events', data, {
+      await axios.post('https://eventplannerbackend.onrender.com/api/events', data, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',

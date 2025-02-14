@@ -36,7 +36,7 @@ const ServiceDetails = () => {
 
   const fetchServiceDetails = async () => {
     try {
-      const response = await axios.get(`/api/services/${id}`);
+      const response = await axios.get(`https://eventplannerbackend.onrender.com/api/services/${id}`);
       setService(response.data);
     } catch (error) {
       console.error('Error fetching service details:', error);

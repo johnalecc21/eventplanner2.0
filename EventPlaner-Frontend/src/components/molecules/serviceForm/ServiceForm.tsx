@@ -54,14 +54,14 @@ const ServiceForm = ({ service, onClose, onSubmit }: ServiceFormProps) => {
        });
 
       if (service) {
-        await axios.put(`/api/services/${service._id}`, data, {
+        await axios.put(`https://eventplannerbackend.onrender.com/api/services/${service._id}`, data, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'multipart/form-data',
           },
         });
       } else {
-        await axios.post('/api/services', data, {
+        await axios.post('https://eventplannerbackend.onrender.com/api/services', data, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'multipart/form-data',
