@@ -20,7 +20,7 @@ const Login = () => {
 
     setLoading(true);
     try {
-      const response = await axios.post('http://localhost:5001/api/auth/login', { email, password });
+      const response = await axios.post('https://eventplannerbackend.onrender.com/api/auth/login', { email, password });
       
       const { token, user } = response.data;
       localStorage.setItem('token', token); // Guardar el token en el almacenamiento local

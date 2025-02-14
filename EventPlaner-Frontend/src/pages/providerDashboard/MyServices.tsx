@@ -31,7 +31,7 @@ const MyServices = () => {
 
   const fetchServices = async (providerId: string) => {
     try {
-      const response = await axios.get<Service[]>('http://localhost:5001/api/services', {
+      const response = await axios.get<Service[]>('https://eventplannerbackend.onrender.com/api/services', {
         params: { providerId },
       });
       setServices(response.data);
@@ -46,7 +46,7 @@ const MyServices = () => {
       if (token) {
         const userId = JSON.parse(atob(token.split('.')[1])).userId;
         console.log('Deleting service with ID:', serviceId, 'and provider ID:', userId);
-        await axios.delete(`http://localhost:5001/api/services/${serviceId}`, {
+        await axios.delete(`https://eventplannerbackend.onrender.com/api/services/${serviceId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

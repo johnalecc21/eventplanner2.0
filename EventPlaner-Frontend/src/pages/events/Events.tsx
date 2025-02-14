@@ -48,7 +48,7 @@ const UserBookings = () => {
 
   const fetchBookings = async (token: string) => {
     try {
-      const response = await axios.get<Booking[]>('http://localhost:5001/api/bookings/user', {
+      const response = await axios.get<Booking[]>('https://eventplannerbackend.onrender.com/api/bookings/user', {
         headers: {
           Authorization: `Bearer ${token}`,
         },

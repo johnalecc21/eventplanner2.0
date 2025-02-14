@@ -26,7 +26,7 @@ const Marketplace = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const response = await fetch('http://localhost:5001/api/services');
+        const response = await fetch('https://eventplannerbackend.onrender.com/api/services');
         const data = await response.json();
         setServices(data);
         setFilteredServices(data); // Al principio no hay filtro

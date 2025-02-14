@@ -37,7 +37,7 @@ const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, providerName, se
 
         console.log('Fetching messages for:', { serviceId, userId });
 
-        const response = await axios.get<Message[]>('http://localhost:5001/api/messages', {
+        const response = await axios.get<Message[]>('https://eventplannerbackend.onrender.com/api/messages', {
           params: { serviceId, userId },
           headers: {
             Authorization: `Bearer ${token}`,
@@ -73,7 +73,7 @@ const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, providerName, se
       const messageData = { serviceId, userId, content: newMessage };
       console.log('Sending message:', messageData);
 
-      const response = await axios.post('http://localhost:5001/api/messages', messageData, {
+      const response = await axios.post('https://eventplannerbackend.onrender.com/api/messages', messageData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',

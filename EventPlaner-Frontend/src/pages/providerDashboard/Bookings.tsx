@@ -45,7 +45,7 @@ const Bookings = () => {
 
   const fetchBookings = async (token: string) => {
     try {
-      const response = await axios.get<Booking[]>('http://localhost:5001/api/bookings/provider', {
+      const response = await axios.get<Booking[]>('https://eventplannerbackend.onrender.com/api/bookings/provider', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -61,13 +61,13 @@ const Bookings = () => {
       const token = localStorage.getItem('token');
       if (token) {
         // Confirmar la reserva en el backend
-        await axios.put(`http://localhost:5001/api/bookings/${bookingId}/confirm`, {}, {
+        await axios.put(`https://eventplannerbackend.onrender.com/api/bookings/${bookingId}/confirm`, {}, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
         // Obtener los detalles de la reserva confirmada
-        const response = await axios.get(`http://localhost:5001/api/bookings/${bookingId}`, {
+        const response = await axios.get(`https://eventplannerbackend.onrender.com/api/bookings/${bookingId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -91,7 +91,7 @@ const Bookings = () => {
     try {
       const token = localStorage.getItem('token');
       if (token) {
-        await axios.put(`http://localhost:5001/api/bookings/${bookingId}/reject`, {}, {
+        await axios.put(`https://eventplannerbackend.onrender.com/api/bookings/${bookingId}/reject`, {}, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

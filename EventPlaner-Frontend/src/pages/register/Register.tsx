@@ -22,7 +22,7 @@ const Register = () => {
 
     setLoading(true);
     try {
-      const response = await axios.post('http://localhost:5001/api/auth/register', {
+      const response = await axios.post('https://eventplannerbackend.onrender.com/api/auth/register', {
         name,
         email,
         password,
