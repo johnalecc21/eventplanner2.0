@@ -1,5 +1,6 @@
 // src/components/atoms/modal/Modal.test.tsx
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render } from '@testing-library/react';
+import { screen, fireEvent } from '@testing-library/dom';
 import Modal from './Modal';
 
 describe('Modal Component', () => {
