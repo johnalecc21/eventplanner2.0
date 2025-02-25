@@ -23,6 +23,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onConfirm, title, messag
         <button
           onClick={onClose}
           className="absolute top-4 right-4 p-2 rounded-lg hover:bg-white/5 transition-colors"
+           data-testid="close-button"
         >
           <X className="h-6 w-6" />
         </button>

@@ -60,7 +60,7 @@ const Home = () => {
 
       <section>
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold">Events</h2>
+          <h2 className="text-2xl font-bold">Planners</h2>
           <Link
             to="/marketplace"
             className="flex items-center space-x-2 text-primary hover:text-primary/90 transition-colors"
