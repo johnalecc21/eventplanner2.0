@@ -1,4 +1,3 @@
-// components/atoms/modal/Modal.tsx
 import React from 'react';
 import { X } from 'lucide-react';
 
@@ -12,35 +11,52 @@ interface ModalProps {
   cancelButtonText?: string;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onConfirm, title, message, confirmButtonText, cancelButtonText }) => {
+const Modal: React.FC<ModalProps> = ({
+  isOpen,
+  onClose,
+  onConfirm,
+  title,
+  message,
+  confirmButtonText,
+  cancelButtonText,
+}) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" onClick={onClose} />
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
+      {/* Fondo oscuro */}
+      <div className="absolute inset-0" onClick={onClose} />
 
-      <div className="relative glass-effect rounded-xl w-full max-w-md p-8">
+      {/* Contenido del modal */}
+      <div className="relative bg-white rounded-2xl w-full max-w-md p-8 shadow-2xl space-y-6">
+        {/* Botón de cierre */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-2 rounded-lg hover:bg-white/5 transition-colors"
-           data-testid="close-button"
+          className="absolute top-4 right-4 p-2 rounded-lg hover:bg-gray-100 transition-colors"
+          data-testid="close-button"
         >
-          <X className="h-6 w-6" />
+          <X className="h-6 w-6 text-text-secondary" />
         </button>
-        <h2 className="text-2xl font-bold mb-6">{title}</h2>
-        <p className="text-gray-300 mb-6">{message}</p>
+
+        {/* Título */}
+        <h2 className="text-2xl font-bold text-primary">{title}</h2>
+
+        {/* Mensaje */}
+        <p className="text-text-secondary">{message}</p>
+
+        {/* Botones de acción */}
         <div className="flex justify-end space-x-2">
           {cancelButtonText && (
             <button
               onClick={onClose}
-              className="px-4 py-2 rounded-lg bg-gray-300 hover:bg-gray-400 text-white transition-colors"
+              className="px-4 py-2 rounded-lg border border-gray-300 text-text-secondary hover:bg-gray-100 transition-colors"
             >
               {cancelButtonText}
             </button>
           )}
           <button
             onClick={onConfirm ? onConfirm : onClose}
-            className="px-4 py-2 rounded-lg bg-primary hover:bg-primary/90 text-white transition-colors"
+            className="px-4 py-2 rounded-lg bg-primary hover:bg-primary-dark text-white transition-all duration-300 shadow-md hover:shadow-lg disabled:opacity-50"
           >
             {confirmButtonText}
           </button>

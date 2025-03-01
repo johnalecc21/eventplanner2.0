@@ -1,4 +1,3 @@
-// pages/providerDashboard/MyServices.tsx
 import { useState, useEffect } from 'react';
 import { Plus, Edit, Trash } from 'lucide-react';
 import axios from 'axios';
@@ -45,13 +44,11 @@ const MyServices = () => {
       const token = localStorage.getItem('token');
       if (token) {
         const userId = JSON.parse(atob(token.split('.')[1])).userId;
-        console.log('Deleting service with ID:', serviceId, 'and provider ID:', userId);
         await axios.delete(`https://eventplannerbackend.onrender.com/api/services/${serviceId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log('Service deleted successfully');
         fetchServices(userId);
       }
     } catch (error) {
@@ -75,7 +72,8 @@ const MyServices = () => {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 p-6 min-h-screen">
+      {/* Encabezado */}
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold text-primary">My Services</h1>
         <button
@@ -83,45 +81,51 @@ const MyServices = () => {
             setEditingService(null);
             setIsModalOpen(true);
           }}
-          className="flex items-center space-x-2 bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg transition-colors"
+          className="flex items-center space-x-2 bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg"
         >
           <Plus className="h-5 w-5" />
           <span>Add Service</span>
         </button>
       </div>
+
+      {/* Lista de servicios */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {services.map((service) => (
-          <div key={service._id} className="glass-effect rounded-xl overflow-hidden">
+          <div key={service._id} className="bg-white rounded-2xl overflow-hidden shadow-lg transition-transform duration-300 hover:-translate-y-1">
+            {/* Imagen del servicio */}
             <div className="relative h-48">
               <img
                 src={service.imageUrls[0] || 'https://via.placeholder.com/300'} // Fallback image
                 alt={service.name}
                 className="w-full h-full object-cover"
               />
+              {/* Botones de edición y eliminación */}
               <div className="absolute top-4 right-4 space-x-2">
                 <button
                   onClick={() => {
                     setEditingService(service);
                     setIsModalOpen(true);
                   }}
-                  className="p-2 rounded-lg glass-effect hover:bg-white/20 transition-colors"
+                  className="p-2 rounded-lg bg-white/80 hover:bg-white transition-colors shadow-sm"
                 >
-                  <Edit className="h-5 w-5" />
+                  <Edit className="h-5 w-5 text-text-secondary" />
                 </button>
                 <button
                   onClick={() => openDeleteModal(service._id)}
-                  className="p-2 rounded-lg glass-effect hover:bg-white/20 transition-colors"
+                  className="p-2 rounded-lg bg-white/80 hover:bg-white transition-colors shadow-sm"
                 >
-                  <Trash className="h-5 w-5" />
+                  <Trash className="h-5 w-5 text-red-500" />
                 </button>
               </div>
             </div>
-            <div className="p-6">
-              <h3 className="text-xl font-semibold mb-2 text-gray-200">{service.name}</h3>
-              <p className="text-text-secondary mb-4 text-gray-200">{service.description}</p>
+
+            {/* Detalles del servicio */}
+            <div className="p-6 space-y-4">
+              <h3 className="text-xl font-semibold text-primary">{service.name}</h3>
+              <p className="text-text-secondary line-clamp-2">{service.description}</p>
               <div className="flex items-center justify-between">
-                <span className="text-2xl font-bold text-gray-200">${service.price}</span>
-                <span className="px-3 py-1 rounded-full glass-effect text-sm text-gray-200">
+                <span className="text-2xl font-bold text-primary">${service.price}</span>
+                <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium">
                   {service.category}
                 </span>
               </div>
@@ -129,6 +133,8 @@ const MyServices = () => {
           </div>
         ))}
       </div>
+
+      {/* Modal de creación/edición de servicios */}
       {isModalOpen && (
         <ServiceForm
           service={editingService}
@@ -147,7 +153,8 @@ const MyServices = () => {
           }}
         />
       )}
-      {/* Delete Modal */}
+
+      {/* Modal de eliminación */}
       <Modal
         isOpen={deleteModal.isOpen}
         onClose={closeDeleteModal}

@@ -36,7 +36,6 @@ const Marketplace = () => {
         setLoading(false);
       }
     };
-
     fetchServices();
   }, []);
 
@@ -62,48 +61,59 @@ const Marketplace = () => {
   }, [searchQuery, selectedCategory, services]);
 
   return (
-    <div className="space-y-8">
-      <div className="flex flex-col md:flex-row gap-4 items-start">
-        <div className="w-full md:w-64">
+    <div className="space-y-8 p-4">
+      {/* Barra lateral y contenido principal */}
+      <div className="flex flex-col md:flex-row gap-6 items-start">
+        {/* Barra lateral: Filtros */}
+        <div className="w-full md:w-72">
           <CategoryFilter
             selectedCategory={selectedCategory}
             setSelectedCategory={setSelectedCategory}
           />
         </div>
 
+        {/* Contenido principal */}
         <div className="flex-1 space-y-6">
-          <div className="glass-effect p-4 rounded-lg flex items-center gap-4">
+          {/* Barra de búsqueda y filtro */}
+          <div className="glass-effect p-4 rounded-2xl flex items-center gap-4 shadow-lg">
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-text-secondary" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-text-secondary" />
               <input
                 type="text"
                 placeholder="Search services..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-white/5 rounded-lg pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                className="w-full bg-transparent rounded-lg pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300"
               />
             </div>
-            <button className="p-2 rounded-lg hover:bg-white/5 transition-colors">
-              <Filter className="h-5 w-5" />
+            <button className="p-2 rounded-lg hover:bg-white/10 transition-colors">
+              <Filter className="h-5 w-5 text-text-secondary" />
             </button>
           </div>
 
+          {/* Lista de servicios */}
           {loading ? (
-            <p>Loading services...</p>
+            <p className="text-center text-text-secondary">Loading services...</p>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredServices.map((service) => (
-                <ServiceCard
-                  key={service._id}
-                  id={service._id}
-                  name={service.name}
-                  category={service.category}
-                  rating={service.rating || 0}
-                  reviews={service.reviews.length}
-                  image={service.imageUrls[0]}
-                  price={service.price}
-                />
-              ))}
+              {filteredServices.length > 0 ? (
+                filteredServices.map((service) => (
+                  <ServiceCard
+                    key={service._id}
+                    id={service._id}
+                    name={service.name}
+                    category={service.category}
+                    rating={service.rating || 0}
+                    reviews={service.reviews.length}
+                    image={service.imageUrls[0]}
+                    price={service.price}
+                  />
+                ))
+              ) : (
+                <p className="text-center text-text-secondary col-span-full">
+                  No services found.
+                </p>
+              )}
             </div>
           )}
         </div>

@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Star, MapPin, Calendar, DollarSign, MessageSquare } from 'lucide-react';
 import axios from 'axios';
 import BookingModal from '../../components/organisms/bookingModal/BookingModal';
+
 interface Review {
   _id: string;
   user: {
@@ -79,71 +80,78 @@ const ServiceDetails = () => {
   </div>
         <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent" />
         <div className="absolute bottom-8 left-8">
-          <h1 className="text-4xl font-bold mb-2">{service.name}</h1>
-          <div className="flex items-center space-x-4">
+          <h1 className="text-5xl font-bold text-white drop-shadow-md">{service.name}</h1>
+          <div className="flex items-center space-x-4 mt-2">
             <span className="flex items-center space-x-1">
-              <Star className="h-5 w-5 text-yellow-400 fill-current" />
-              <span>{service.rating}</span>
+              <Star className="h-6 w-6 text-yellow-400 fill-current" />
+              <span className="text-xl text-white font-semibold">{service.rating}</span>
             </span>
-            <span className="text-text-secondary">({service.reviews.length} reviews)</span>
+            <span className="text-lg text-white/80">({service.reviews.length} reviews)</span>
           </div>
         </div>
       </div>
 
+      {/* Contenido principal */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Detalles principales */}
         <div className="lg:col-span-2 space-y-8">
-          <div className="glass-effect rounded-xl p-6">
-            <h2 className="text-2xl font-bold mb-4">About this service</h2>
+          {/* Acerca del servicio */}
+          <div className="glass-effect rounded-2xl p-6 shadow-md">
+            <h2 className="text-3xl font-bold mb-4 text-primary">About this service</h2>
             <p className="text-text-secondary">{service.description}</p>
           </div>
 
-          <div className="glass-effect rounded-xl p-6">
-            <h2 className="text-2xl font-bold mb-4">Reviews</h2>
-            <div className="space-y-4">
-              {service.reviews.map((review) => (
-                <div key={review._id} className="border-b border-white/10 pb-4">
-                  <div className="flex items-center space-x-2 mb-2">
-                    <img
-                      src={review.user.avatar || `https://ui-avatars.com/api/?name=${review.user.name}`}
-                      alt={review.user.name}
-                      className="w-8 h-8 rounded-full"
-                    />
-                    <div>
-                      <p className="font-medium">{review.user.name}</p>
-                      <div className="flex items-center space-x-1">
-                        <Star className="h-4 w-4 text-yellow-400 fill-current" />
-                        <span>{review.rating}</span>
+          {/* Reseñas */}
+          <div className="glass-effect rounded-2xl p-6 shadow-md">
+            <h2 className="text-3xl font-bold mb-4 text-primary">Reviews</h2>
+            <div className="space-y-6">
+              {service.reviews.length > 0 ? (
+                service.reviews.map((review) => (
+                  <div key={review._id} className="border-b border-white/10 pb-4">
+                    <div className="flex items-center space-x-4 mb-2">
+                      <img
+                        src={review.user.avatar || `https://ui-avatars.com/api/?name=${review.user.name}`}
+                        alt={review.user.name}
+                        className="w-12 h-12 rounded-full object-cover"
+                      />
+                      <div>
+                        <p className="font-medium text-lg">{review.user.name}</p>
+                        <div className="flex items-center space-x-1">
+                          <Star className="h-5 w-5 text-yellow-400 fill-current" />
+                          <span>{review.rating}</span>
+                        </div>
                       </div>
                     </div>
+                    <p className="text-text-secondary">{review.comment}</p>
                   </div>
-                  <p className="text-text-secondary">{review.comment}</p>
-                </div>
-              ))}
+                ))
+              ) : (
+                <p className="text-text-secondary">No reviews yet.</p>
+              )}
             </div>
           </div>
         </div>
 
-        <div className="glass-effect rounded-xl p-6 h-fit sticky top-24">
-          <div className="space-y-4">
-            <div className="text-3xl font-bold">
+        {/* Sidebar con detalles del servicio */}
+        <div className="glass-effect rounded-2xl p-6 h-fit sticky top-24 shadow-md">
+          <div className="space-y-6">
+            <div className="text-4xl font-bold text-primary">
               ${service.price}
               <span className="text-lg text-text-secondary font-normal">/event</span>
             </div>
-
-            <div className="space-y-2">
+            <div className="space-y-4">
               <div className="flex items-center space-x-2 text-text-secondary">
-                <MapPin className="h-5 w-5" />
+                <MapPin className="h-6 w-6" />
                 <span>{service.location}</span>
               </div>
               <div className="flex items-center space-x-2 text-text-secondary">
-                <Calendar className="h-5 w-5" />
+                <Calendar className="h-6 w-6" />
                 <span>Check availability</span>
               </div>
             </div>
-
             <button
               onClick={() => setIsBookingModalOpen(true)}
-              className="w-full bg-primary hover:bg-primary/90 text-white py-3 rounded-lg transition-colors"
+              className="w-full bg-primary hover:bg-primary/90 text-white py-3 rounded-lg transition-colors shadow-md hover:shadow-lg"
             >
               Book Now
             </button>
@@ -151,6 +159,7 @@ const ServiceDetails = () => {
         </div>
       </div>
 
+      {/* Modal de reserva */}
       {isBookingModalOpen && (
         <BookingModal
           service={service}

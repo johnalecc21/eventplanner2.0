@@ -92,7 +92,7 @@ const UserBookings = () => {
           </thead>
           <tbody>
             {bookings.map((booking) => (
-              <tr key={booking._id} className="hover:bg-primary/5">
+              <tr key={booking._id} className="border hover:bg-primary">
                 <td className="p-4">{booking.serviceId?.name || 'N/A'}</td>
                 <td className="p-4">{booking.serviceId?.provider?.name || 'N/A'}</td>
                 <td className="p-4">{new Date(booking.createdAt).toLocaleDateString()}</td>

@@ -162,7 +162,7 @@ const Bookings = () => {
           </thead>
           <tbody>
             {bookings.map((booking) => (
-              <tr key={booking._id} className="hover:bg-primary text-gray-200">
+              <tr key={booking._id} className="hover:bg-primary text-gray-600 border">
                 <td className="p-4">{booking.serviceId?.name || 'N/A'}</td>
                 <td className="p-4">{booking.userId?.name || 'N/A'}</td>
                 <td className="p-4">{booking.userId?.email || 'N/A'}</td>
