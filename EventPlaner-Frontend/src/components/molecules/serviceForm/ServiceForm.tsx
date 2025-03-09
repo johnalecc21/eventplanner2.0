@@ -34,9 +34,7 @@ const ServiceForm = ({ service, onClose, onSubmit }: ServiceFormProps) => {
     try {
       const token = localStorage.getItem('token');
       const data = new FormData();
-
-      // Añadir imágenes desde el archivo y URLs
-      const allImages = [...formData.images, ...formData.imageUrls]; // Combina imágenes de archivo y URLs
+      const allImages = [...formData.images, ...formData.imageUrls];
       allImages.forEach((image) => {
         if (typeof image === 'string') {
           data.append('imageUrls', image);
@@ -44,8 +42,6 @@ const ServiceForm = ({ service, onClose, onSubmit }: ServiceFormProps) => {
           data.append('images', image);
         }
       });
-
-      // Añadir el resto de los datos del formulario
       Object.entries(formData).forEach(([key, value]) => {
         if (key !== 'images' && key !== 'imageUrls') {
           data.append(key, value.toString());
@@ -75,10 +71,7 @@ const ServiceForm = ({ service, onClose, onSubmit }: ServiceFormProps) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
-      {/* Fondo oscuro */}
       <div className="absolute inset-0" onClick={onClose} />
-
-      {/* Contenido del modal */}
       <div
         className="relative bg-white rounded-2xl w-full max-w-2xl max-h-[95vh] overflow-y-auto shadow-2xl space-y-6"
         style={{
@@ -86,22 +79,18 @@ const ServiceForm = ({ service, onClose, onSubmit }: ServiceFormProps) => {
           scrollbarColor: '#d1d5db #f3f4f6',
         }}
       >
-        {/* Botón de cierre */}
         <button
           onClick={onClose}
           className="absolute top-4 right-4 p-2 rounded-lg hover:bg-gray-100 transition-colors z-10"
+          data-testid="close-button"
         >
           <X className="h-6 w-6 text-text-secondary" />
         </button>
-
-        {/* Título */}
-        <h2 className="text-2xl font-bold text-primary px-8 pt-4">
+        <h2 className="text-2xl font-bold text-primary px-8 pt-4" data-testid="form-title">
           {service ? 'Edit Service' : 'Add New Service'}
         </h2>
 
-        {/* Formulario */}
-        <form onSubmit={handleSubmit} className="px-8 pb-8 space-y-6">
-          {/* Nombre del servicio */}
+        <form onSubmit={handleSubmit} className="px-8 pb-8 space-y-6" data-testid="service-form">
           <div className="space-y-2">
             <label className="block text-sm font-medium text-text-secondary">Service Name</label>
             <input
@@ -110,10 +99,10 @@ const ServiceForm = ({ service, onClose, onSubmit }: ServiceFormProps) => {
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary"
               required
+              data-testid="name-input"
             />
           </div>
 
-          {/* Categoría */}
           <div className="space-y-2">
             <label className="block text-sm font-medium text-text-secondary">Category</label>
             <select
@@ -121,6 +110,7 @@ const ServiceForm = ({ service, onClose, onSubmit }: ServiceFormProps) => {
               onChange={(e) => setFormData({ ...formData, category: e.target.value })}
               className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary"
               required
+              data-testid="category-select"
             >
               <option value="">Select a category</option>
               <option value="Photography">Photography</option>
@@ -132,7 +122,6 @@ const ServiceForm = ({ service, onClose, onSubmit }: ServiceFormProps) => {
             </select>
           </div>
 
-          {/* Descripción */}
           <div className="space-y-2">
             <label className="block text-sm font-medium text-text-secondary">Description</label>
             <textarea
@@ -140,10 +129,10 @@ const ServiceForm = ({ service, onClose, onSubmit }: ServiceFormProps) => {
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary h-32 resize-none"
               required
+              data-testid="description-textarea"
             />
           </div>
 
-          {/* Precio y ubicación */}
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <label className="block text-sm font-medium text-text-secondary">Price</label>
@@ -153,6 +142,7 @@ const ServiceForm = ({ service, onClose, onSubmit }: ServiceFormProps) => {
                 onChange={(e) => setFormData({ ...formData, price: e.target.value })}
                 className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary"
                 required
+                data-testid="price-input"
               />
             </div>
             <div className="space-y-2">
@@ -163,11 +153,11 @@ const ServiceForm = ({ service, onClose, onSubmit }: ServiceFormProps) => {
                 onChange={(e) => setFormData({ ...formData, location: e.target.value })}
                 className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary"
                 required
+                data-testid="location-input"
               />
             </div>
           </div>
 
-          {/* Imágenes desde URL */}
           <div className="space-y-2">
             <label className="block text-sm font-medium text-text-secondary">Image URLs (optional)</label>
             <div className="space-y-2">
@@ -183,19 +173,20 @@ const ServiceForm = ({ service, onClose, onSubmit }: ServiceFormProps) => {
                   }}
                   className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary"
                   placeholder="Enter image URL"
+                  data-testid={`image-url-input-${index}`}
                 />
               ))}
               <button
                 type="button"
                 onClick={() => setFormData({ ...formData, imageUrls: [...formData.imageUrls, ''] })}
                 className="text-primary hover:underline"
+                data-testid="add-image-url-button"
               >
                 Add more image URL
               </button>
             </div>
           </div>
 
-          {/* Subir imágenes desde archivo */}
           <div className="space-y-2">
             <label className="block text-sm font-medium text-text-secondary">Images (Upload from file)</label>
             <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
@@ -206,10 +197,12 @@ const ServiceForm = ({ service, onClose, onSubmit }: ServiceFormProps) => {
                 onChange={(e) => setFormData({ ...formData, images: Array.from(e.target.files || []) })}
                 className="hidden"
                 id="images"
+                data-testid="file-upload-input"
               />
               <label
                 htmlFor="images"
                 className="flex flex-col items-center justify-center cursor-pointer"
+                data-testid="file-upload-label"
               >
                 <Upload className="h-8 w-8 mb-2 text-primary" />
                 <span className="text-sm text-text-secondary">Click to upload images (max 5)</span>
@@ -217,10 +210,10 @@ const ServiceForm = ({ service, onClose, onSubmit }: ServiceFormProps) => {
             </div>
           </div>
 
-          {/* Botón de envío */}
           <button
             type="submit"
             className="w-full bg-primary hover:bg-primary-dark text-white py-3 rounded-lg transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-1 disabled:opacity-50"
+            data-testid="submit-button"
           >
             {service ? 'Update Service' : 'Add Service'}
           </button>

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Calendar, MapPin, Tag, Users, Clock } from 'lucide-react';
 import axios from 'axios';
 
 interface EventFormProps {
@@ -52,10 +51,11 @@ const EventForm = ({ onClose }: EventFormProps) => {
       
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-text-secondary">
+          <label htmlFor="eventTitle" className="block text-sm font-medium text-text-secondary">
             Event Title
           </label>
           <input
+            id="eventTitle"
             type="text"
             value={formData.title}
             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
@@ -65,10 +65,11 @@ const EventForm = ({ onClose }: EventFormProps) => {
         </div>
 
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-text-secondary">
+          <label htmlFor="description" className="block text-sm font-medium text-text-secondary">
             Description
           </label>
           <textarea
+            id="description"
             value={formData.description}
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
             className="w-full bg-white/5 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary h-32"
@@ -78,10 +79,11 @@ const EventForm = ({ onClose }: EventFormProps) => {
 
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-text-secondary">
+            <label htmlFor="date" className="block text-sm font-medium text-text-secondary">
               Date
             </label>
             <input
+              id="date"
               type="date"
               value={formData.date}
               onChange={(e) => setFormData({ ...formData, date: e.target.value })}
@@ -91,10 +93,11 @@ const EventForm = ({ onClose }: EventFormProps) => {
           </div>
 
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-text-secondary">
+            <label htmlFor="time" className="block text-sm font-medium text-text-secondary">
               Time
             </label>
             <input
+              id="time"
               type="time"
               value={formData.time}
               onChange={(e) => setFormData({ ...formData, time: e.target.value })}
@@ -105,10 +108,11 @@ const EventForm = ({ onClose }: EventFormProps) => {
         </div>
 
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-text-secondary">
+          <label htmlFor="location" className="block text-sm font-medium text-text-secondary">
             Location
           </label>
           <input
+            id="location"
             type="text"
             value={formData.location}
             onChange={(e) => setFormData({ ...formData, location: e.target.value })}
@@ -119,10 +123,11 @@ const EventForm = ({ onClose }: EventFormProps) => {
 
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-text-secondary">
+            <label htmlFor="category" className="block text-sm font-medium text-text-secondary">
               Category
             </label>
             <select
+              id="category"
               value={formData.category}
               onChange={(e) => setFormData({ ...formData, category: e.target.value })}
               className="w-full bg-white/5 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
@@ -138,10 +143,11 @@ const EventForm = ({ onClose }: EventFormProps) => {
           </div>
 
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-text-secondary">
+            <label htmlFor="maxAttendees" className="block text-sm font-medium text-text-secondary">
               Max Attendees
             </label>
             <input
+              id="maxAttendees"
               type="number"
               value={formData.maxAttendees}
               onChange={(e) => setFormData({ ...formData, maxAttendees: e.target.value })}
@@ -152,10 +158,11 @@ const EventForm = ({ onClose }: EventFormProps) => {
         </div>
 
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-text-secondary">
+          <label htmlFor="image" className="block text-sm font-medium text-text-secondary">
             Event Image
           </label>
           <input
+            id="image"
             type="file"
             accept="image/*"
             onChange={(e) => setFormData({ ...formData, image: e.target.files?.[0] || null })}

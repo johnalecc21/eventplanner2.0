@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Star, MapPin, Calendar, DollarSign, MessageSquare } from 'lucide-react';
+import { Star, MapPin, Calendar } from 'lucide-react';
 import axios from 'axios';
 import BookingModal from '../../components/organisms/bookingModal/BookingModal';
 
@@ -51,7 +51,6 @@ const ServiceDetails = () => {
 <div className="relative h-100 rounded-2xl overflow-hidden">
   <div className={`w-full h-full ${service.imageUrls.length > 1 ? 'grid grid-cols-2 gap-2' : 'grid-cols-1'}`}>
     {service.imageUrls.length > 1 ? (
-      // Si hay más de una imagen, mostramos un collage
       <>
         <img
           src={service.imageUrls[0]}
@@ -70,7 +69,6 @@ const ServiceDetails = () => {
         </div>
       </>
     ) : (
-      // Si solo hay una imagen, mostramos la imagen única
       <img
         src={service.imageUrls[0]}
         alt={service.name}
@@ -91,17 +89,13 @@ const ServiceDetails = () => {
         </div>
       </div>
 
-      {/* Contenido principal */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Detalles principales */}
         <div className="lg:col-span-2 space-y-8">
-          {/* Acerca del servicio */}
           <div className="glass-effect rounded-2xl p-6 shadow-md">
             <h2 className="text-3xl font-bold mb-4 text-primary">About this service</h2>
             <p className="text-text-secondary">{service.description}</p>
           </div>
 
-          {/* Reseñas */}
           <div className="glass-effect rounded-2xl p-6 shadow-md">
             <h2 className="text-3xl font-bold mb-4 text-primary">Reviews</h2>
             <div className="space-y-6">
@@ -132,7 +126,6 @@ const ServiceDetails = () => {
           </div>
         </div>
 
-        {/* Sidebar con detalles del servicio */}
         <div className="glass-effect rounded-2xl p-6 h-fit sticky top-24 shadow-md">
           <div className="space-y-6">
             <div className="text-4xl font-bold text-primary">
@@ -159,7 +152,6 @@ const ServiceDetails = () => {
         </div>
       </div>
 
-      {/* Modal de reserva */}
       {isBookingModalOpen && (
         <BookingModal
           service={service}

@@ -8,7 +8,7 @@ const Register = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('user'); // Nuevo estado para el rol
+  const [role, setRole] = useState('user');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ const Register = () => {
         name,
         email,
         password,
-        role, // Enviar el rol seleccionado al backend
+        role,
       });
       console.log('User registered:', response.data);
       navigate('/login');
@@ -38,23 +38,12 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center bg-white">
-      {/* Contenedor principal */}
-      <div
-        className="w-full max-w-md p-8 rounded-2xl shadow-lg space-y-6"
-        style={{
-          boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
-        }}
-      >
-        {/* Título */}
-        <h2 className="text-2xl font-bold text-center text-primary">Create Account</h2>
+    <div className="min-h-[80vh] flex items-center justify-center bg-white" data-testid="register-container">
+      <div className="w-full max-w-md p-8 rounded-2xl shadow-lg space-y-6" data-testid="register-card">
+        <h2 className="text-2xl font-bold text-center text-primary" data-testid="register-title">Create Account</h2>
+        {error && <p className="text-red-500 text-center text-sm" data-testid="register-error">{error}</p>}
 
-        {/* Mensaje de error */}
-        {error && <p className="text-red-500 text-center text-sm">{error}</p>}
-
-        {/* Formulario */}
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Campo de nombre completo */}
+        <form onSubmit={handleSubmit} className="space-y-6" data-testid="register-form">
           <InputField
             type="text"
             label="Full Name"
@@ -62,9 +51,9 @@ const Register = () => {
             onChange={setName}
             icon={<User className="h-5 w-5 text-text-secondary" />}
             placeholder="John Doe"
+            data-testid="input-name"
           />
 
-          {/* Campo de correo electrónico */}
           <InputField
             type="email"
             label="Email"
@@ -72,9 +61,9 @@ const Register = () => {
             onChange={setEmail}
             icon={<Mail className="h-5 w-5 text-text-secondary" />}
             placeholder="your@email.com"
+            data-testid="input-email"
           />
 
-          {/* Campo de contraseña */}
           <InputField
             type="password"
             label="Password"
@@ -82,33 +71,33 @@ const Register = () => {
             onChange={setPassword}
             icon={<Lock className="h-5 w-5 text-text-secondary" />}
             placeholder="••••••••"
+            data-testid="input-password"
           />
 
-          {/* Selector de rol */}
-          <div className="space-y-2">
+          <div className="space-y-2" data-testid="role-selector">
             <label className="block text-sm font-medium text-text-secondary">Select Role</label>
             <select
               value={role}
               onChange={(e) => setRole(e.target.value)}
               className="w-full bg-white/5 rounded-lg pl-3 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300"
+              data-testid="input-role"
             >
               <option value="user">User</option>
               <option value="provider">Provider</option>
             </select>
           </div>
 
-          {/* Botón de registro */}
           <button
             type="submit"
             className="w-full bg-primary hover:bg-primary-dark text-white py-3 rounded-lg transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-1 disabled:opacity-50"
             disabled={loading}
+            data-testid="submit-button"
           >
             {loading ? 'Signing Up...' : 'Sign Up'}
           </button>
         </form>
 
-        {/* Enlace para iniciar sesión */}
-        <p className="text-center text-text-secondary text-sm">
+        <p className="text-center text-text-secondary text-sm" data-testid="login-link">
           Already have an account?{' '}
           <Link to="/login" className="text-primary hover:text-primary-dark font-medium transition-colors">
             Sign in

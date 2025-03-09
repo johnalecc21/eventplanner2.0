@@ -21,50 +21,54 @@ const ServiceCard = ({ id, name, category, rating, reviews, image, price }: Serv
         background: 'var(--background)',
         color: 'var(--text)',
       }}
+      data-testid="service-card" 
     >
-      {/* Imagen del servicio */}
       <div className="relative h-48 overflow-hidden">
         <img
           src={image}
           alt={name}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+          data-testid="service-image" 
         />
-        <div className="absolute top-4 right-4 px-3 py-1 rounded-full glass-effect text-sm text-white">
+        <div
+          className="absolute top-4 right-4 px-3 py-1 rounded-full glass-effect text-sm text-white"
+          data-testid="service-category" 
+        >
           {category}
         </div>
       </div>
 
-      {/* Contenido del servicio */}
       <div
         className="p-6 space-y-4"
         style={{
           background: 'var(--background)',
         }}
       >
-        {/* Nombre del servicio */}
         <h3
           className="text-xl font-semibold"
           style={{
             color: 'var(--text)',
           }}
+          data-testid="service-name" 
         >
           {name}
         </h3>
 
-        {/* Calificación y reseñas */}
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2" data-testid="service-rating"> 
           <Star
             className="h-5 w-5"
             style={{
               color: 'var(--accent)',
               fill: 'var(--accent)',
             }}
+            data-testid="service-star-icon" 
           />
           <span
             className="font-medium"
             style={{
               color: 'var(--text)',
             }}
+            data-testid="service-rating-value" 
           >
             {rating}
           </span>
@@ -73,18 +77,19 @@ const ServiceCard = ({ id, name, category, rating, reviews, image, price }: Serv
             style={{
               color: 'var(--text-secondary)',
             }}
+            data-testid="service-reviews" 
           >
             ({reviews} reviews)
           </span>
         </div>
 
-        {/* Precio y botón */}
         <div className="flex items-center justify-between">
           <span
             className="text-2xl font-bold"
             style={{
               color: 'var(--text)',
             }}
+            data-testid="service-price" 
           >
             ${price}
           </span>
@@ -98,6 +103,7 @@ const ServiceCard = ({ id, name, category, rating, reviews, image, price }: Serv
               background: 'var(--primary)',
               color: '#fff',
             }}
+            data-testid="service-book-button" 
           >
             Book Now
           </button>

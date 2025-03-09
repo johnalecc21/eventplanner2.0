@@ -110,37 +110,53 @@ const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, providerName, se
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" onClick={onClose} />
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" data-testid="chat-modal-container">
+      <div
+        className="absolute inset-0 bg-background/80 backdrop-blur-sm"
+        onClick={onClose}
+        data-testid="chat-modal-backdrop"
+      />
 
-      <div className="relative glass-effect rounded-xl w-full max-w-lg p-8">
+      <div className="relative glass-effect rounded-xl w-full max-w-lg p-8" data-testid="chat-modal-content">
         <button
           onClick={onClose}
           className="absolute top-4 right-4 p-2 rounded-lg hover:bg-white/5 transition-colors"
+          data-testid="close-chat-modal-button"
         >
           <X className="h-6 w-6" />
         </button>
-        <h2 className="text-2xl font-bold mb-6">Chat with {providerName}</h2>
+        <h2 className="text-2xl font-bold mb-6" data-testid="chat-modal-title">
+          Chat with {providerName}
+        </h2>
 
-        <div className="h-80 overflow-y-auto mb-4">
+        <div className="h-80 overflow-y-auto mb-4" data-testid="chat-messages-container">
           {messages.length === 0 ? (
-            <p className="text-center text-gray-500">No messages yet.</p>
+            <p className="text-center text-gray-500" data-testid="no-messages-text">
+              No messages yet.
+            </p>
           ) : (
             messages.map((msg) => (
-              <div key={msg._id} className={`mb-2 ${String(msg.senderId) === String(userId) ? 'text-right' : 'text-left'}`}>
-                <div className={`inline-block px-4 py-2 rounded-lg ${String(msg.senderId) === String(userId) ? 'bg-primary text-white' : 'bg-gray-200 text-gray-800'}`}>
+              <div
+                key={msg._id}
+                className={`mb-2 ${String(msg.senderId) === String(userId) ? 'text-right' : 'text-left'}`}
+                data-testid={`message-${msg._id}`}
+              >
+                <div
+                  className={`inline-block px-4 py-2 rounded-lg ${String(msg.senderId) === String(userId) ? 'bg-primary text-white' : 'bg-gray-200 text-gray-800'}`}
+                  data-testid={`message-content-${msg._id}`}
+                >
                   {msg.content}
                 </div>
-                <div className="text-xs text-gray-400">
+                <div className="text-xs text-gray-400" data-testid={`message-time-${msg._id}`}>
                   {new Date(msg.createdAt).toLocaleTimeString()}
                 </div>
               </div>
             ))
           )}
-          <div ref={messagesEndRef} />
+          <div ref={messagesEndRef} data-testid="messages-end-ref" />
         </div>
 
-        <div className="flex space-x-2">
+        <div className="flex space-x-2" data-testid="chat-input-container">
           <input
             type="text"
             value={newMessage}
@@ -148,10 +164,12 @@ const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, providerName, se
             onKeyDown={handleKeyPress}
             className="w-full bg-white/5 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
             placeholder="Type a message..."
+            data-testid="chat-input"
           />
           <button
             onClick={sendMessage}
             className="p-2 rounded-lg bg-primary hover:bg-primary/90 text-white transition-colors"
+            data-testid="send-message-button"
           >
             <MessageSquare className="h-5 w-5" />
           </button>

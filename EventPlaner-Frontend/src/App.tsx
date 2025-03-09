@@ -1,7 +1,6 @@
 // App.tsx
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MainLayout from './components/layouts/MainLayout';
-import PlainLayout from './components/layouts/PlainLayout';
 import ProviderLayout from './components/layouts/ProviderLayout';
 import Home from './pages/home/Home';
 import Marketplace from './pages/marketplace/Marketplace';

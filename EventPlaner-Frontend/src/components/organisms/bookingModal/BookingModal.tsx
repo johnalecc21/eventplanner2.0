@@ -15,15 +15,14 @@ const BookingModal = ({ service, onClose }: BookingModalProps) => {
     guests: '',
     message: '',
   });
-  const [isLoggedIn, setIsLoggedIn] = useState(true); // Estado para saber si el usuario está logueado
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Comprobar si el token existe en el localStorage
     const token = localStorage.getItem('token');
     if (!token) {
-      setIsLoggedIn(false); // Si no hay token, el usuario no está logueado
-      navigate('/login'); // Redirigir al login
+      setIsLoggedIn(false);
+      navigate('/login');
     }
   }, [navigate]);
 
@@ -31,7 +30,7 @@ const BookingModal = ({ service, onClose }: BookingModalProps) => {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
-      const userId = localStorage.getItem('userId'); // Asegúrate de guardar el userId en localStorage
+      const userId = localStorage.getItem('userId');
       await axios.post(
         `https://eventplannerbackend.onrender.com/api/services/${service._id}/book`,
         { ...formData, userId },
@@ -46,30 +45,25 @@ const BookingModal = ({ service, onClose }: BookingModalProps) => {
   };
 
   if (!isLoggedIn) {
-    return null; // No renderiza el modal si no está logueado
+    return null;
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      {/* Fondo con desenfoque */}
-      <div className="absolute inset-0 backdrop-blur-sm" onClick={onClose} />
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" data-testid="booking-modal">
+      <div className="absolute inset-0 backdrop-blur-sm" onClick={onClose} data-testid="modal-overlay" />
 
-      {/* Contenido del modal */}
-      <div className="relative bg-white rounded-2xl w-full max-w-lg p-8 shadow-2xl space-y-6">
-        {/* Botón de cierre */}
+      <div className="relative bg-white rounded-2xl w-full max-w-lg p-8 shadow-2xl space-y-6" data-testid="modal-content">
         <button
           onClick={onClose}
           className="absolute top-4 right-4 p-2 rounded-lg hover:bg-gray-100 transition-colors"
+          data-testid="close-button"
         >
           <X className="h-6 w-6 text-text-secondary" />
         </button>
 
-        {/* Título */}
-        <h2 className="text-2xl font-bold text-primary">Book {service.name}</h2>
+        <h2 className="text-2xl font-bold text-primary" data-testid="modal-title">Book {service.name}</h2>
 
-        {/* Formulario */}
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Fecha y hora */}
+        <form onSubmit={handleSubmit} className="space-y-6" data-testid="booking-form">
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <label className="block text-sm font-medium text-text-secondary">Date</label>
@@ -79,6 +73,7 @@ const BookingModal = ({ service, onClose }: BookingModalProps) => {
                 onChange={(e) => setFormData({ ...formData, date: e.target.value })}
                 className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary"
                 required
+                data-testid="date-input"
               />
             </div>
             <div className="space-y-2">
@@ -89,11 +84,11 @@ const BookingModal = ({ service, onClose }: BookingModalProps) => {
                 onChange={(e) => setFormData({ ...formData, time: e.target.value })}
                 className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary"
                 required
+                data-testid="time-input"
               />
             </div>
           </div>
 
-          {/* Número de invitados */}
           <div className="space-y-2">
             <label className="block text-sm font-medium text-text-secondary">Number of Guests</label>
             <input
@@ -102,10 +97,10 @@ const BookingModal = ({ service, onClose }: BookingModalProps) => {
               onChange={(e) => setFormData({ ...formData, guests: e.target.value })}
               className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary"
               required
+              data-testid="guests-input"
             />
           </div>
 
-          {/* Mensaje al proveedor */}
           <div className="space-y-2">
             <label className="block text-sm font-medium text-text-secondary">Message to Provider</label>
             <textarea
@@ -114,14 +109,15 @@ const BookingModal = ({ service, onClose }: BookingModalProps) => {
               className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary h-32 resize-none"
               placeholder="Describe your event and requirements..."
               required
+              data-testid="message-input"
             />
           </div>
 
-          {/* Botón de confirmación */}
           <div className="pt-4">
             <button
               type="submit"
               className="w-full bg-primary hover:bg-primary-dark text-white py-3 rounded-lg transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-1 disabled:opacity-50"
+              data-testid="confirm-button"
             >
               Confirm Booking
             </button>

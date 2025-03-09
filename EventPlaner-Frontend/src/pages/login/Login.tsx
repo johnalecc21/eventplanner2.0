@@ -22,8 +22,7 @@ const Login = () => {
       const response = await axios.post('https://eventplannerbackend.onrender.com/api/auth/login', { email, password });
 
       const { token, user } = response.data;
-      localStorage.setItem('token', token); // Guardar el token en el almacenamiento local
-      // Redirigir según el rol del usuario
+      localStorage.setItem('token', token); 
       if (user.role === 'provider') {
         navigate('/provider/dashboard');
       } else {
@@ -38,23 +37,22 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center bg-white">
-      {/* Contenedor principal */}
+    <div className="min-h-[80vh] flex items-center justify-center bg-white" data-testid="login-container">
       <div
         className="w-full max-w-md p-8 rounded-2xl shadow-lg space-y-6"
         style={{
           boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
         }}
+        data-testid="login-form-container"
       >
-        {/* Título */}
-        <h2 className="text-2xl font-bold text-center text-primary">Welcome back</h2>
+        <h2 className="text-2xl font-bold text-center text-primary" data-testid="login-title">Welcome back</h2>
+        {error && (
+          <p className="text-red-500 text-center text-sm" data-testid="login-error-message">
+            {error}
+          </p>
+        )}
 
-        {/* Mensaje de error */}
-        {error && <p className="text-red-500 text-center text-sm">{error}</p>}
-
-        {/* Formulario */}
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Campo de correo electrónico */}
+        <form onSubmit={handleSubmit} className="space-y-6" data-testid="login-form">
           <InputField
             type="email"
             label="Email"
@@ -62,9 +60,9 @@ const Login = () => {
             onChange={setEmail}
             icon={<Mail className="h-5 w-5 text-text-secondary" />}
             placeholder="your@email.com"
+            data-testid="email-input"
           />
 
-          {/* Campo de contraseña */}
           <InputField
             type="password"
             label="Password"
@@ -72,22 +70,24 @@ const Login = () => {
             onChange={setPassword}
             icon={<Lock className="h-5 w-5 text-text-secondary" />}
             placeholder="••••••••"
+            data-testid="password-input"
           />
-
-          {/* Botón de inicio de sesión */}
           <button
             type="submit"
             className="w-full bg-primary hover:bg-primary-dark text-white py-3 rounded-lg transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-1 disabled:opacity-50"
             disabled={loading}
+            data-testid="login-button"
           >
             {loading ? 'Signing In...' : 'Sign In'}
           </button>
         </form>
-
-        {/* Enlace para registrarse */}
-        <p className="text-center text-text-secondary text-sm">
+        <p className="text-center text-text-secondary text-sm" data-testid="signup-link-text">
           Don't have an account?{' '}
-          <a href="/register" className="text-primary hover:text-primary-dark font-medium transition-colors">
+          <a
+            href="/register"
+            className="text-primary hover:text-primary-dark font-medium transition-colors"
+            data-testid="signup-link"
+          >
             Sign up
           </a>
         </p>

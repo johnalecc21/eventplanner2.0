@@ -60,26 +60,22 @@ const Bookings = () => {
     try {
       const token = localStorage.getItem('token');
       if (token) {
-        // Confirmar la reserva en el backend
         await axios.put(`https://eventplannerbackend.onrender.com/api/bookings/${bookingId}/confirm`, {}, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        // Obtener los detalles de la reserva confirmada
         const response = await axios.get(`https://eventplannerbackend.onrender.com/api/bookings/${bookingId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
         const confirmedBooking = response.data;
-        // Abrir el modal de chat con el cliente específico
         openChatModal(
-            confirmedBooking.serviceId.providerId?._id,
+          confirmedBooking.serviceId.providerId?._id,
           confirmedBooking.serviceId._id,
           confirmedBooking.userId._id
         );
-        // Refrescar la lista de reservas
         fetchBookings(token);
       }
     } catch (error) {
@@ -142,10 +138,10 @@ const Bookings = () => {
   };
 
   return (
-    <div className="space-y-8">
-      <h1 className="text-3xl font-bold text-primary">Bookings</h1>
+    <div className="space-y-8" data-testid="bookings-container">
+      <h1 className="text-3xl font-bold text-primary" data-testid="bookings-title">Bookings</h1>
       <div className="overflow-x-auto rounded-3xl">
-        <table className="min-w-full backdrop-blur-lg rounded-3xl shadow-md glass-effect">
+        <table className="min-w-full backdrop-blur-lg rounded-3xl shadow-md glass-effect" data-testid="bookings-table">
           <thead className="bg-primary text-white">
             <tr>
               <th className="p-4">Service Name</th>
@@ -162,15 +158,15 @@ const Bookings = () => {
           </thead>
           <tbody>
             {bookings.map((booking) => (
-              <tr key={booking._id} className="hover:bg-primary text-gray-600 border">
-                <td className="p-4">{booking.serviceId?.name || 'N/A'}</td>
-                <td className="p-4">{booking.userId?.name || 'N/A'}</td>
-                <td className="p-4">{booking.userId?.email || 'N/A'}</td>
-                <td className="p-4">{new Date(booking.createdAt).toLocaleDateString()}</td>
-                <td className="p-4">{new Date(booking.date).toLocaleDateString()}</td>
-                <td className="p-4">{booking.time}</td>
-                <td className="p-4">{booking.guests}</td>
-                <td className="p-4">{booking.message}</td>
+              <tr key={booking._id} className="hover:bg-primary text-gray-600 border" data-testid={`booking-row-${booking._id}`}>
+                <td className="p-4" data-testid={`service-name-${booking._id}`}>{booking.serviceId?.name || 'N/A'}</td>
+                <td className="p-4" data-testid={`client-name-${booking._id}`}>{booking.userId?.name || 'N/A'}</td>
+                <td className="p-4" data-testid={`client-email-${booking._id}`}>{booking.userId?.email || 'N/A'}</td>
+                <td className="p-4" data-testid={`reservation-date-${booking._id}`}>{new Date(booking.createdAt).toLocaleDateString()}</td>
+                <td className="p-4" data-testid={`event-date-${booking._id}`}>{new Date(booking.date).toLocaleDateString()}</td>
+                <td className="p-4" data-testid={`event-time-${booking._id}`}>{booking.time}</td>
+                <td className="p-4" data-testid={`guests-${booking._id}`}>{booking.guests}</td>
+                <td className="p-4" data-testid={`message-${booking._id}`}>{booking.message}</td>
                 <td className="p-4">
                   {booking.status ? (
                     <span
@@ -181,11 +177,12 @@ const Bookings = () => {
                           ? 'bg-green-200 text-green-800'
                           : 'bg-red-200 text-red-800'
                       }`}
+                      data-testid={`status-${booking._id}`}
                     >
                       {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
                     </span>
                   ) : (
-                    <span className="px-3 py-1 rounded-full bg-gray-200 text-gray-800">N/A</span>
+                    <span className="px-3 py-1 rounded-full bg-gray-200 text-gray-800" data-testid={`status-${booking._id}`}>N/A</span>
                   )}
                 </td>
                 <td className="p-4">
@@ -195,12 +192,14 @@ const Bookings = () => {
                         <button
                           onClick={() => openConfirmModal(booking._id)}
                           className="p-2 rounded-lg bg-green-500 hover:bg-green-600 text-white transition-colors"
+                          data-testid={`confirm-button-${booking._id}`}
                         >
                           <Check className="h-5 w-5" />
                         </button>
                         <button
                           onClick={() => openRejectModal(booking._id)}
                           className="p-2 rounded-lg bg-red-500 hover:bg-red-600 text-white transition-colors"
+                          data-testid={`reject-button-${booking._id}`}
                         >
                           <X className="h-5 w-5" />
                         </button>
@@ -210,12 +209,13 @@ const Bookings = () => {
                       <button
                         onClick={() =>
                           openChatModal(
-                            booking.userId.name, // Cambia esto por el nombre del proveedor
+                            booking.userId.name,
                             booking.serviceId._id,
                             booking.userId._id
                           )
                         }
                         className="p-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white transition-colors"
+                        data-testid={`chat-button-${booking._id}`}
                       >
                         <MessageSquare className="h-5 w-5" />
                       </button>
@@ -228,7 +228,6 @@ const Bookings = () => {
         </table>
       </div>
 
-      {/* Confirm Modal */}
       <Modal
         isOpen={confirmModal.isOpen}
         onClose={closeConfirmModal}
@@ -237,9 +236,9 @@ const Bookings = () => {
         message="Are you sure you want to confirm this booking?"
         confirmButtonText="Confirm"
         cancelButtonText="Cancel"
+        data-testid="confirm-modal"
       />
 
-      {/* Reject Modal */}
       <Modal
         isOpen={rejectModal.isOpen}
         onClose={closeRejectModal}
@@ -248,15 +247,16 @@ const Bookings = () => {
         message="Are you sure you want to reject this booking?"
         confirmButtonText="Reject"
         cancelButtonText="Cancel"
+        data-testid="reject-modal"
       />
 
-      {/* Chat Modal */}
       <ChatModal
         isOpen={chatModal.isOpen}
         onClose={closeChatModal}
         providerName={chatModal.providerName}
         serviceId={chatModal.serviceId}
         userId={chatModal.userId}
+        data-testid="chat-modal"
       />
     </div>
   );

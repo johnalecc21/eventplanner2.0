@@ -20,7 +20,8 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
-    "types": ["jest", "@testing-library/jest-dom"],
+    "typeRoots": ["./node_modules/@types"],
+    "types": ["jest", "@testing-library/jest-dom", "axios-mock-adapter"],
     "esModuleInterop": true,
 
 

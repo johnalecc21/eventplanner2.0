@@ -15,4 +15,9 @@ export default defineConfig({
       },
     },
   },
+  resolve: {
+    alias: {
+      crypto: 'crypto-browserify',
+    },
+  },
 });

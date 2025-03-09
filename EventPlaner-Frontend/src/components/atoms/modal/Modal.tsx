@@ -24,12 +24,8 @@ const Modal: React.FC<ModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-      {/* Fondo oscuro */}
       <div className="absolute inset-0" onClick={onClose} />
-
-      {/* Contenido del modal */}
       <div className="relative bg-white rounded-2xl w-full max-w-md p-8 shadow-2xl space-y-6">
-        {/* Botón de cierre */}
         <button
           onClick={onClose}
           className="absolute top-4 right-4 p-2 rounded-lg hover:bg-gray-100 transition-colors"
@@ -37,14 +33,8 @@ const Modal: React.FC<ModalProps> = ({
         >
           <X className="h-6 w-6 text-text-secondary" />
         </button>
-
-        {/* Título */}
         <h2 className="text-2xl font-bold text-primary">{title}</h2>
-
-        {/* Mensaje */}
         <p className="text-text-secondary">{message}</p>
-
-        {/* Botones de acción */}
         <div className="flex justify-end space-x-2">
           {cancelButtonText && (
             <button
