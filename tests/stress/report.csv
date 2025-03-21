@@ -1,0 +1,9 @@
+metric_name,timestamp,metric_value,check,error,error_code,expected_response,group,method,name,proto,scenario,service,status,subproto,tls_version,url,extra_tags,metadata
+vus,1741575121,2.000000,,,,,,,,,,,,,,,,
+vus_max,1741575121,100.000000,,,,,,,,,,,,,,,,
+data_sent,1741575122,0.000000,,,,,,,,,default,,,,,,,
+data_received,1741575122,0.000000,,,,,,,,,default,,,,,,,
+data_sent,1741575122,0.000000,,,,,,,,,default,,,,,,,
+data_received,1741575122,0.000000,,,,,,,,,default,,,,,,,
+data_sent,1741575122,0.000000,,,,,,,,,default,,,,,,,
+data_received,1741575122,0.000000,,,,,,,,,default,,,,,,,
