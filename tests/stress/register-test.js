@@ -4,11 +4,9 @@ import { htmlReport } from "https://raw.githubusercontent.com/benc-uk/k6-reporte
 
 export const options = {
   stages: [
-    { duration: '30s', target: 20 },   // 20 usuarios virtuales
-    { duration: '30s', target: 50 },   // Escala a 50 usuarios
-    { duration: '1m', target: 80 },    // Escala a 80 usuarios
-    { duration: '30s', target: 50 },   // Reduce a 50 usuarios
-    { duration: '30s', target: 0 },    // Finaliza la prueba
+    { duration: '3s', target: 20 },  
+    { duration: '5s', target: 100 },   
+    { duration: '3s', target: 0 },   
   ],
   thresholds: {
     http_req_duration: ['p(95)<50000'], 

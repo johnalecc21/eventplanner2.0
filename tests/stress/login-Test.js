@@ -4,11 +4,11 @@ import { htmlReport } from "https://raw.githubusercontent.com/benc-uk/k6-reporte
 
 export const options = {
   stages: [
-    { duration: '30s', target: 20 },   // 20 VUs en 30 segundos
-    { duration: '30s', target: 50 },   // Escala a 50 VUs
-    { duration: '1m', target: 80 },   // Escala a 100 VUs
-    { duration: '30s', target: 50 },   // Disminuye a 50 VUs
-    { duration: '30s', target: 0 },    // Finaliza la prueba
+    { duration: '3s', target: 10 },   // 20 VUs en 30 segundos
+    { duration: '3s', target: 200 },   // Escala a 50 VUs
+    { duration: '10s', target: 500 },   // Escala a 100 VUs
+    { duration: '3s', target: 100 },   // Disminuye a 50 VUs
+    { duration: '3s', target: 0 },    // Finaliza la prueba
   ],
   thresholds: {
     http_req_duration: ['p(95)<50000'],
@@ -19,8 +19,8 @@ export const options = {
 export default function () {
   const url = 'https://eventplannerbackend.onrender.com/api/auth/login';
   const payload = JSON.stringify({
-    email: 'planner2@yopmail.com',
-    password: 'hola123.',
+    email: 'planner1@yopmail.com',
+    password: 'hola123',
   });
 
   const params = {

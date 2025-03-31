@@ -4,15 +4,15 @@ import { htmlReport } from "https://raw.githubusercontent.com/benc-uk/k6-reporte
 
 export const options = {
   stages: [
-    { duration: '30s', target: 20 },  // 20 usuarios en 30s
-    { duration: '30s', target: 50 },  // Sube a 50 usuarios
-    { duration: '1m', target: 80 },   // Pico de 80 usuarios
-    { duration: '30s', target: 50 },  // Baja a 50 usuarios
-    { duration: '30s', target: 0 },   // Finaliza
+    { duration: '3s', target: 20 },  
+    { duration: '3s', target: 50 },  
+    { duration: '10s', target: 100 },   
+    { duration: '3s', target: 50 },  
+    { duration: '3s', target: 0 },   
   ],
   thresholds: {
-    http_req_duration: ['p(95)<5000'],  // 95% deben responder en <5s
-    http_req_failed: ['rate<0.01'],     // <1% de fallos
+    http_req_duration: ['p(95)<5000'],  
+    http_req_failed: ['rate<0.01'],     
   },
 };
 
