@@ -1,15 +1,15 @@
 <html><head><meta charset="utf-8"/><title>Test Report</title><style type="text/css">:root {
   --text-primary: #111;
-  --text-secondary: #4F4F4F;
+  --text-secondary: #4f4f4f;
   --success: #006633;
-  --success-bright: #80FFBF;
-  --danger: #CC071E;
-  --danger-bright: #FBDFE0;
-  --warning: #995C00;
-  --warning-bright: #FFEEA8;
+  --success-bright: #80ffbf;
+  --danger: #cc071e;
+  --danger-bright: #fbdfe0;
+  --warning: #995c00;
+  --warning-bright: #ffeea8;
   --panel: #eee;
   --border: #949494;
-  --disabled: #6B6B6B;
+  --disabled: #6b6b6b;
 }
 
 html,
@@ -43,10 +43,23 @@ header {
   margin-top: 0.5rem;
 }
 
+#metadata-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.additional-information-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+}
+
 /** SUMMARY */
 #summary {
   color: var(--text-primary);
-  margin: 2rem 0;
   display: flex;
   font-family: monospace;
   font-size: 1rem;
@@ -261,4 +274,4 @@ header {
   font-size: 1rem;
   padding: 0 0.5rem;
 }
-</style></head><body><main class="jesthtml-content"><header><h1 id="title">Test Report</h1></header><section id="metadata-container"><div id="timestamp">Started: 2025-03-11 21:18:45</div><div id="summary"><div id="suite-summary"><div class="summary-total">Suites (1)</div><div class="summary-passed ">1 passed</div><div class="summary-failed  summary-empty">0 failed</div><div class="summary-pending  summary-empty">0 pending</div></div><div id="test-summary"><div class="summary-total">Tests (12)</div><div class="summary-passed ">12 passed</div><div class="summary-failed  summary-empty">0 failed</div><div class="summary-pending  summary-empty">0 pending</div></div></div></section><details id="suite-1" class="suite-container" open=""><summary class="suite-info"><div class="suite-path">/Users/alejo/Documents/event/eventplanner2.0-1/EventPlaner-Backend/server/tests/models/Event.test.js</div><div class="suite-time warn">6.256s</div></summary><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">Event Model Tests</div><div class="test-title">debería rechazar un evento sin campos requeridos</div><div class="test-status">passed</div><div class="test-duration">0.411s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Event Model Tests</div><div class="test-title">debería establecer correctamente los valores por defecto</div><div class="test-status">passed</div><div class="test-duration">0.242s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Event Model Tests</div><div class="test-title">debería actualizar updatedAt al modificar el evento</div><div class="test-status">passed</div><div class="test-duration">0.382s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Event Model Tests</div><div class="test-title">debería rechazar un evento con un ID de organizador inválido</div><div class="test-status">passed</div><div class="test-duration">0.251s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Event Model Tests</div><div class="test-title">debería rechazar un estado de evento no válido</div><div class="test-status">passed</div><div class="test-duration">0.214s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Event Model Tests</div><div class="test-title">debería validar correctamente el array de servicios</div><div class="test-status">passed</div><div class="test-duration">0.252s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Event Model Tests</div><div class="test-title">debería validar correctamente el array de invitados</div><div class="test-status">passed</div><div class="test-duration">0.333s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Event Model Tests</div><div class="test-title">debería poder actualizar el estado de un evento</div><div class="test-status">passed</div><div class="test-duration">0.343s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Event Model Tests</div><div class="test-title">debería poder calcular el costo total estimado basado en los servicios</div><div class="test-status">passed</div><div class="test-duration">0.269s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Event Model Tests</div><div class="test-title">debería poder recuperar eventos por organizador</div><div class="test-status">passed</div><div class="test-duration">0.352s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Event Model Tests</div><div class="test-title">debería poder localizar eventos por rango de fechas</div><div class="test-status">passed</div><div class="test-duration">0.297s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Event Model Tests</div><div class="test-title">debería poder filtrar eventos por categoría</div><div class="test-status">passed</div><div class="test-duration">0.294s</div></div></div></div></details></main></body></html>
+</style></head><body><main class="jesthtml-content"><header><h1 id="title">Test Report</h1></header><section id="metadata-container"><div id="timestamp">Started: 2025-04-10 18:13:15</div><div id="summary"><div id="suite-summary"><div class="summary-total">Suites (1)</div><div class="summary-passed ">1 passed</div><div class="summary-failed  summary-empty">0 failed</div><div class="summary-pending  summary-empty">0 pending</div></div><div id="test-summary"><div class="summary-total">Tests (8)</div><div class="summary-passed ">8 passed</div><div class="summary-failed  summary-empty">0 failed</div><div class="summary-pending  summary-empty">0 pending</div></div></div></section><details id="suite-1" class="suite-container" open=""><summary class="suite-info"><div class="suite-path">/Users/alejo/Documents/event/eventplanner2.0-1/EventPlaner-Backend/server/tests/models/Booking.test.js</div><div class="suite-time warn">5.489s</div></summary><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">Booking Model Tests</div><div class="test-title">debería rechazar una reserva sin campos requeridos</div><div class="test-status">passed</div><div class="test-duration">0.547s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Booking Model Tests</div><div class="test-title">debería establecer correctamente el estado por defecto y la fecha de creación</div><div class="test-status">passed</div><div class="test-duration">0.342s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Booking Model Tests</div><div class="test-title">debería rechazar una reserva con un ID de usuario o servicio inválido</div><div class="test-status">passed</div><div class="test-duration">0.25s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Booking Model Tests</div><div class="test-title">debería rechazar un estado de reserva no válido</div><div class="test-status">passed</div><div class="test-duration">0.259s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Booking Model Tests</div><div class="test-title">debería permitir actualizar el estado de una reserva</div><div class="test-status">passed</div><div class="test-duration">0.355s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Booking Model Tests</div><div class="test-title">debería poder recuperar múltiples reservas por usuario</div><div class="test-status">passed</div><div class="test-duration">0.287s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Booking Model Tests</div><div class="test-title">debería poder recuperar reservas por servicio</div><div class="test-status">passed</div><div class="test-duration">0.26s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Booking Model Tests</div><div class="test-title">debería poder localizar reservas por rango de fechas</div><div class="test-status">passed</div><div class="test-duration">0.245s</div></div></div></div></details></main></body></html>

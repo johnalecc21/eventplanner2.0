@@ -234,19 +234,12 @@
 <a name='L169'></a><a href='#L169'>169</a>
 <a name='L170'></a><a href='#L170'>170</a>
 <a name='L171'></a><a href='#L171'>171</a>
-<a name='L172'></a><a href='#L172'>172</a>
-<a name='L173'></a><a href='#L173'>173</a>
-<a name='L174'></a><a href='#L174'>174</a>
-<a name='L175'></a><a href='#L175'>175</a>
-<a name='L176'></a><a href='#L176'>176</a>
-<a name='L177'></a><a href='#L177'>177</a>
-<a name='L178'></a><a href='#L178'>178</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L172'></a><a href='#L172'>172</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -334,9 +327,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">52x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -384,8 +375,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -396,7 +385,6 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -424,7 +412,6 @@ import axios from 'axios';
 import ServiceForm from '../../components/molecules/serviceForm/ServiceForm';
 import Modal from '../../components/atoms/modal/Modal';
 &nbsp;
-// Definir la interfaz para los servicios
 interface Service {
   _id: string;
   name: string;
@@ -509,19 +496,17 @@ const MyServices = () =&gt; {
         &lt;/button&gt;
       &lt;/div&gt;
 &nbsp;
-      {/* Lista de servicios */}
       &lt;div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-testid="services-grid"&gt;
         {services.map((service) =&gt; (
           &lt;div key={service._id} className="bg-white rounded-2xl overflow-hidden shadow-lg transition-transform duration-300 hover:-translate-y-1" data-testid={`service-card-${service._id}`}&gt;
-            {/* Imagen del servicio */}
             &lt;div className="relative h-48" data-testid={`service-image-container-${service._id}`}&gt;
               &lt;img
-                src={service.imageUrls[0] || 'https://via.placeholder.com/300'} // Fallback image
+                src={service.imageUrls[0] || 'https://via.placeholder.com/300'} 
                 alt={service.name}
                 className="w-full h-full object-cover"
                 data-testid={`service-image-${service._id}`}
               /&gt;
-              {/* Botones de edición y eliminación */}
+&nbsp;
               &lt;div className="absolute top-4 right-4 space-x-2" data-testid={`service-buttons-${service._id}`}&gt;
                 &lt;button
                   onClick={() =&gt; {
@@ -543,7 +528,6 @@ const MyServices = () =&gt; {
               &lt;/div&gt;
             &lt;/div&gt;
 &nbsp;
-            {/* Detalles del servicio */}
             &lt;div className="p-6 space-y-4" data-testid={`service-details-${service._id}`}&gt;
               &lt;h3 className="text-xl font-semibold text-primary" data-testid={`service-name-${service._id}`}&gt;{service.name}&lt;/h3&gt;
               &lt;p className="text-text-secondary line-clamp-2" data-testid={`service-description-${service._id}`}&gt;{service.description}&lt;/p&gt;
@@ -558,7 +542,6 @@ const MyServices = () =&gt; {
         ))}
       &lt;/div&gt;
 &nbsp;
-      {/* Modal de creación/edición de servicios */}
       {isModalOpen &amp;&amp; (
         &lt;ServiceForm
           service={editingService}
@@ -579,7 +562,6 @@ const MyServices = () =&gt; {
         /&gt;
       )}
 &nbsp;
-      {/* Modal de eliminación */}
       &lt;Modal
         isOpen={deleteModal.isOpen}
         onClose={closeDeleteModal}
@@ -601,7 +583,7 @@ export default MyServices;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-03-08T15:48:02.773Z
+                at 2025-04-10T23:55:26.797Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

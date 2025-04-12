@@ -161,19 +161,7 @@
 <a name='L96'></a><a href='#L96'>96</a>
 <a name='L97'></a><a href='#L97'>97</a>
 <a name='L98'></a><a href='#L98'>98</a>
-<a name='L99'></a><a href='#L99'>99</a>
-<a name='L100'></a><a href='#L100'>100</a>
-<a name='L101'></a><a href='#L101'>101</a>
-<a name='L102'></a><a href='#L102'>102</a>
-<a name='L103'></a><a href='#L103'>103</a>
-<a name='L104'></a><a href='#L104'>104</a>
-<a name='L105'></a><a href='#L105'>105</a>
-<a name='L106'></a><a href='#L106'>106</a>
-<a name='L107'></a><a href='#L107'>107</a>
-<a name='L108'></a><a href='#L108'>108</a>
-<a name='L109'></a><a href='#L109'>109</a>
-<a name='L110'></a><a href='#L110'>110</a>
-<a name='L111'></a><a href='#L111'>111</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<a name='L99'></a><a href='#L99'>99</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -198,7 +186,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -213,17 +200,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -307,8 +283,7 @@ const Login = () =&gt; {
       const response = await axios.post('https://eventplannerbackend.onrender.com/api/auth/login', { email, password });
 &nbsp;
       const { token, user } = response.data;
-      localStorage.setItem('token', token); // Guardar el token en el almacenamiento local
-      // Redirigir según el rol del usuario
+      localStorage.setItem('token', token); 
       if (user.role === 'provider') {
         navigate('/provider/dashboard');
       } else <span class="missing-if-branch" title="else path not taken" >E</span>{
@@ -324,7 +299,6 @@ const Login = () =&gt; {
 &nbsp;
   return (
     &lt;div className="min-h-[80vh] flex items-center justify-center bg-white" data-testid="login-container"&gt;
-      {/* Contenedor principal */}
       &lt;div
         className="w-full max-w-md p-8 rounded-2xl shadow-lg space-y-6"
         style={{
@@ -332,19 +306,14 @@ const Login = () =&gt; {
         }}
         data-testid="login-form-container"
       &gt;
-        {/* Título */}
         &lt;h2 className="text-2xl font-bold text-center text-primary" data-testid="login-title"&gt;Welcome back&lt;/h2&gt;
-&nbsp;
-        {/* Mensaje de error */}
         {error &amp;&amp; (
           &lt;p className="text-red-500 text-center text-sm" data-testid="login-error-message"&gt;
             {error}
           &lt;/p&gt;
         )}
 &nbsp;
-        {/* Formulario */}
         &lt;form onSubmit={handleSubmit} className="space-y-6" data-testid="login-form"&gt;
-          {/* Campo de correo electrónico */}
           &lt;InputField
             type="email"
             label="Email"
@@ -355,7 +324,6 @@ const Login = () =&gt; {
             data-testid="email-input"
           /&gt;
 &nbsp;
-          {/* Campo de contraseña */}
           &lt;InputField
             type="password"
             label="Password"
@@ -365,8 +333,6 @@ const Login = () =&gt; {
             placeholder="••••••••"
             data-testid="password-input"
           /&gt;
-&nbsp;
-          {/* Botón de inicio de sesión */}
           &lt;button
             type="submit"
             className="w-full bg-primary hover:bg-primary-dark text-white py-3 rounded-lg transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-1 disabled:opacity-50"
@@ -376,8 +342,6 @@ const Login = () =&gt; {
             {loading ? 'Signing In...' : 'Sign In'}
           &lt;/button&gt;
         &lt;/form&gt;
-&nbsp;
-        {/* Enlace para registrarse */}
         &lt;p className="text-center text-text-secondary text-sm" data-testid="signup-link-text"&gt;
           Don't have an account?{' '}
           &lt;a
@@ -400,7 +364,7 @@ export default Login;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-03-08T15:48:02.773Z
+                at 2025-04-10T23:55:26.797Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
