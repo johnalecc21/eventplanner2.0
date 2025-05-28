@@ -4,7 +4,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest --config jest.config.js",
+    "test": "jest --config jest.config.js",
     "test:user": "NODE_OPTIONS=--experimental-vm-modules jest --config jest.config.cjs -t 'User Model Tests'",
     "dev": "nodemon index.js"
   },

@@ -3,7 +3,7 @@ import User from '../../models/User.js';
 import bcrypt from 'bcryptjs';
 
 // Variables globales para configuración
-const TEST_DB_URI = 'mongodb+srv://Cluster59760:eventplanner@eventplanner.qsfb2.mongodb.net/';
+const TEST_DB_URI = 'mongodb://localhost:27017/event-planner-test';
 
 // Configuración de conexión a MongoDB para pruebas
 beforeAll(async () => {

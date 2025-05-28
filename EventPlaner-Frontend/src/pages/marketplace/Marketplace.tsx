@@ -1,17 +1,24 @@
 import { useState, useEffect } from 'react';
-import { Search, Filter } from 'lucide-react';
 import ServiceCard from '../../components/templates/serviceCard/ServiceCard';
-import CategoryFilter from '../../components/molecules/categoryFilter/CategoryFilter';
+import ServiceListItem from '../../components/molecules/serviceListItem/ServiceListItem';
+import AdvancedFilter from '../../components/molecules/advancedFilter/AdvancedFilter';
+import ViewControls from '../../components/molecules/viewControls/ViewControls';
 
 interface Service {
   _id: string;
   name: string;
   category: string;
+  location?: string;
   rating: number;
   reviews: { length: number }[]; 
   images: string[];
   imageUrls: string[];
   price: number;
+  description: string;
+  provider?: {
+    _id: string;
+    name: string;
+  };
 }
 
 const Marketplace = () => {
@@ -19,7 +26,32 @@ const Marketplace = () => {
   const [services, setServices] = useState<Service[]>([]);
   const [filteredServices, setFilteredServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedCategory, setSelectedCategory] = useState('All Services');
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  
+  // Filter states
+  const [selectedCategory, setSelectedCategory] = useState('Todos');
+  const [selectedLocation, setSelectedLocation] = useState('Todas las ubicaciones');
+  const [minPrice, setMinPrice] = useState('');
+  const [maxPrice, setMaxPrice] = useState('');
+  const [ratingFilter, setRatingFilter] = useState('Todos');
+  const [activeTab, setActiveTab] = useState('Todos');
+  
+  // Helper function to get provider initials from name
+  const getInitials = (name: string = '') => {
+    return name
+      .split(' ')
+      .map(word => word[0])
+      .join('')
+      .toUpperCase()
+      .substring(0, 2);
+  };
+
+
+  // Alternative: Get color based on card index (for variety)
+  const getColorByIndex = (index: number): 'blue' | 'purple' | 'pink' | 'blue2' | 'green' | 'yellow' => {
+    const colors: Array<'blue' | 'purple' | 'pink' | 'blue2' | 'green' | 'yellow'> = ['blue', 'purple', 'pink', 'blue2', 'green', 'yellow'];
+    return colors[index % colors.length];
+  };
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -40,95 +72,147 @@ const Marketplace = () => {
   useEffect(() => {
     let filtered = services;
 
+    // Filter by search query
     if (searchQuery) {
       filtered = filtered.filter((service) =>
         service.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
-    if (selectedCategory !== 'All Services') {
+    // Filter by category
+    if (selectedCategory !== 'Todos') {
       filtered = filtered.filter(
         (service) => service.category === selectedCategory
       );
     }
 
+    // Filter by location
+    if (selectedLocation !== 'Todas las ubicaciones') {
+      filtered = filtered.filter(
+        (service) => service.location === selectedLocation
+      );
+    }
+
+    // Filter by price range
+    if (minPrice) {
+      filtered = filtered.filter(
+        (service) => service.price >= parseInt(minPrice)
+      );
+    }
+
+    if (maxPrice) {
+      filtered = filtered.filter(
+        (service) => service.price <= parseInt(maxPrice)
+      );
+    }
+
+    // Filter by rating
+    if (ratingFilter === '4+') {
+      filtered = filtered.filter((service) => service.rating >= 4);
+    } else if (ratingFilter === '3+') {
+      filtered = filtered.filter((service) => service.rating >= 3);
+    }
+
     setFilteredServices(filtered);
-  }, [searchQuery, selectedCategory, services]);
+  }, [searchQuery, selectedCategory, selectedLocation, minPrice, maxPrice, ratingFilter, services]);
+
+  // Reset all filters
+  const clearFilters = () => {
+    setSelectedCategory('Todos');
+    setActiveTab('Todos');
+    setSelectedLocation('Todas las ubicaciones');
+    setMinPrice('');
+    setMaxPrice('');
+    setRatingFilter('Todos');
+    setSearchQuery('');
+  };
+
+  // Apply filters - in this implementation, filters are applied automatically via useEffect
+  const applyFilters = () => {
+    // This is just a placeholder for UX purposes
+    // The actual filtering happens in the useEffect above
+  };
 
   return (
-    <div className="space-y-8 p-4" data-testid="marketplace-container">
-      <div className="flex flex-col md:flex-row gap-6 items-start">
-        <div className="w-full md:w-72" data-testid="category-filter-container">
-          <CategoryFilter
-            selectedCategory={selectedCategory}
-            setSelectedCategory={setSelectedCategory}
-          />
-        </div>
+    <div className="max-w-7xl mx-auto px-4 py-8">
+      {/* Advanced Filter Component */}
+      <AdvancedFilter 
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+        selectedLocation={selectedLocation}
+        setSelectedLocation={setSelectedLocation}
+        minPrice={minPrice}
+        setMinPrice={setMinPrice}
+        maxPrice={maxPrice}
+        setMaxPrice={setMaxPrice}
+        ratingFilter={ratingFilter}
+        setRatingFilter={setRatingFilter}
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        clearFilters={clearFilters}
+        applyFilters={applyFilters}
+      />
 
-        <div className="flex-1 space-y-6">
+      {/* View Controls - Display count and grid/list toggle */}
+      <ViewControls 
+        totalResults={filteredServices.length}
+        viewMode={viewMode}
+        setViewMode={setViewMode}
+      />
 
-          <div
-            className="glass-effect p-4 rounded-2xl flex items-center gap-4 shadow-lg"
-            data-testid="search-filter-container"
-          >
-            <div className="flex-1 relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-text-secondary" />
-              <input
-                type="text"
-                placeholder="Search services..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-transparent rounded-lg pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300"
-                data-testid="search-input"
+      {/* Services Content */}
+      {loading ? (
+        <p className="text-center text-gray-500 py-12">Cargando servicios...</p>
+      ) : filteredServices.length > 0 ? (
+        viewMode === 'grid' ? (
+          // Grid View
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredServices.map((service, index) => (
+              <ServiceCard
+                key={service._id}
+                id={service._id}
+                name={service.name}
+                category={service.category}
+                rating={service.rating || 0}
+                reviews={service.reviews.length}
+                image={service.imageUrls[0]}
+                price={service.price}
+                description={service.description}
+                location={service.location}
+                provider={service.provider ? {
+                  name: service.provider.name || "",
+                  initials: getInitials(service.provider.name)
+                } : undefined}
+                // Use either category-based color or index-based color for variety
+                color={getColorByIndex(index)}
+                data-testid={`service-card-${service._id}`}
               />
-            </div>
-            <button
-              className="p-2 rounded-lg hover:bg-white/10 transition-colors"
-              data-testid="filter-button"
-            >
-              <Filter className="h-5 w-5 text-text-secondary" />
-            </button>
+            ))}
           </div>
-
-
-          {loading ? (
-            <p
-              className="text-center text-text-secondary"
-              data-testid="loading-message"
-            >
-              Loading services...
-            </p>
-          ) : (
-            <div
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-              data-testid="services-grid"
-            >
-              {filteredServices.length > 0 ? (
-                filteredServices.map((service) => (
-                  <ServiceCard
-                    key={service._id}
-                    id={service._id}
-                    name={service.name}
-                    category={service.category}
-                    rating={service.rating || 0}
-                    reviews={service.reviews.length}
-                    image={service.imageUrls[0]}
-                    price={service.price}
-                    data-testid={`service-card-${service._id}`} 
-                  />
-                ))
-              ) : (
-                <p
-                  className="text-center text-text-secondary col-span-full"
-                  data-testid="no-services-message"
-                >
-                  No services found.
-                </p>
-              )}
-            </div>
-          )}
-        </div>
-      </div>
+        ) : (
+          // List View
+          <div className="flex flex-col gap-4">
+            {filteredServices.map((service) => (
+              <ServiceListItem
+                key={service._id}
+                id={service._id}
+                name={service.name}
+                category={service.category}
+                rating={service.rating || 0}
+                reviews={service.reviews.length}
+                image={service.imageUrls[0]}
+                price={service.price}
+              />
+            ))}
+          </div>
+        )
+      ) : (
+        <p className="text-center text-gray-500 py-12">
+          No se encontraron servicios que coincidan con los filtros seleccionados.
+        </p>
+      )}
     </div>
   );
 };
